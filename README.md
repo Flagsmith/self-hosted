@@ -4,6 +4,7 @@ You can use this repo to set up an entire [Bullet Train Feature Flag](https://bu
 
 ```bash
 git clone https://github.com/BulletTrainHQ/bullet-train-docker.git
+cd bullet-train-docker
 docker-compose up
 ```
 
