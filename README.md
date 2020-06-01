@@ -1,6 +1,6 @@
 # Bullet Train in Docker
 
-You can use this repo to set up an entire Bullet Train environment locally. Just clone the repo and run docker-compose:
+You can use this repo to set up an entire [Bullet Train Feature Flag](https://bullet-train.io) environment locally. Just clone the repo and run docker-compose:
 
 ```bash
 git clone https://github.com/BulletTrainHQ/bullet-train-docker.git
@@ -11,5 +11,5 @@ Wait for the images to download and run, then visit `http://localhost:8080/`. As
 
 For more information, please visit:
 
-- [Bullet Train Feature Flag Homepage](https://www.bullet-train.io)
+- [Bullet Train Feature Flag Homepage](https://bullet-train.io)
 - [Bullet Train Documentation](https://docs.bullet-train.io/)
