@@ -1,0 +1,31 @@
+version: '3'
+services:
+  db:
+    image: postgres:10.6-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bullettrain
+  api:
+    image: bullettrain/api:latest
+    environment:
+      DJANGO_DB_NAME: bullettrain
+      DJANGO_DB_USER: postgres
+      DJANGO_DB_PASSWORD: password
+      DJANGO_DB_PORT: 5432
+      DJANGO_ALLOWED_HOSTS: localhost
+    ports:
+     - "8000:8000"
+    depends_on:
+      - db
+    links:
+      - db:db
+  frontend:
+    image: bullettrain/frontend:latest
+    environment:
+      API_URL: http://localhost:8000/api/v1/
+      ASSET_URL: http://localhost:8080/
+    ports:
+      - "8080:8080"
+    links:
+      - api:api
+  
