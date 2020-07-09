@@ -1,24 +1,31 @@
-version: '3'
+version: "3"
 services:
   db:
     image: postgres:10.6-alpine
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: bullettrain
+    container_name: bullettrain_postgres
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    container_name: bullettrain_redis
   api:
     image: bullettrain/api:latest
     environment:
-      DJANGO_DB_NAME: bullettrain
-      DJANGO_DB_USER: postgres
-      DJANGO_DB_PASSWORD: password
-      DJANGO_DB_PORT: 5432
       DJANGO_ALLOWED_HOSTS: localhost
+      DATABASE_URL: postgresql://postgres:password@db:5432/bullettrain
+      REDIS_URL: redis://redis:6379/
     ports:
-     - "8000:8000"
+      - "8000:80"
     depends_on:
       - db
+      - redis
     links:
       - db:db
+      - redis:redis
+    container_name: bullettrain_api
   frontend:
     image: bullettrain/frontend:latest
     environment:
@@ -28,4 +35,4 @@ services:
       - "8080:8080"
     links:
       - api:api
-  
+    container_name: bullettrain_frontend
