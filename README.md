@@ -1,3 +1,5 @@
+[<img alt="Feature Flag, Remote Config and A/B Testing platform, Bullet Train" width="100%" src="https://github.com/BulletTrainHQ/bullet-train-frontend/raw/master/hero.png"/>](https://bullet-train.io/)
+
 # Bullet Train in Docker
 
 You can use this repo to set up an entire [Bullet Train Feature Flag](https://bullet-train.io) environment locally. Just clone the repo and run docker-compose:
