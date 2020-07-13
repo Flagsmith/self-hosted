@@ -16,9 +16,13 @@ services:
     environment:
       DJANGO_ALLOWED_HOSTS: localhost
       DATABASE_URL: postgresql://postgres:password@db:5432/bullettrain
+      DJANGO_DB_NAME: bullettrain
+      DJANGO_DB_USER: postgres
+      DJANGO_DB_PASSWORD: password
+      DJANGO_DB_PORT: 5432
       REDIS_URL: redis://redis:6379/
     ports:
-      - "8000:80"
+      - "8000:8000"
     depends_on:
       - db
       - redis
