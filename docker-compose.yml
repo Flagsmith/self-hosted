@@ -16,6 +16,7 @@ services:
     environment:
       DJANGO_ALLOWED_HOSTS: localhost
       DATABASE_URL: postgresql://postgres:password@db:5432/bullettrain
+      DJANGO_DB_HOST: db
       DJANGO_DB_NAME: bullettrain
       DJANGO_DB_USER: postgres
       DJANGO_DB_PASSWORD: password
