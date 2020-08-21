@@ -6,11 +6,6 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: bullettrain
     container_name: bullettrain_postgres
-  redis:
-    image: redis:alpine
-    ports:
-      - "6379:6379"
-    container_name: bullettrain_redis
   api:
     image: bullettrain/api:latest
     environment:
@@ -21,15 +16,12 @@ services:
       DJANGO_DB_USER: postgres
       DJANGO_DB_PASSWORD: password
       DJANGO_DB_PORT: 5432
-      REDIS_URL: redis://redis:6379/
     ports:
       - "8000:8000"
     depends_on:
       - db
-      - redis
     links:
       - db:db
-      - redis:redis
     container_name: bullettrain_api
   frontend:
     image: bullettrain/frontend:latest
