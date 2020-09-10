@@ -11,6 +11,7 @@ docker-compose up
 ```
 
 Wait for the images to download and run, then visit `http://localhost:8080/`. As a first step, you will need to create a new account.
+More information on how to create the super user account cna be found here https://github.com/BulletTrainHQ/bullet-train-api#locally
 
 ## Architecture
 
