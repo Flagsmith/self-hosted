@@ -4,35 +4,27 @@ services:
     image: postgres:10.6-alpine
     environment:
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: bullettrain
-    container_name: bullettrain_postgres
-  redis:
-    image: redis:alpine
-    ports:
-      - "6379:6379"
-    container_name: bullettrain_redis
+      POSTGRES_DB: flagsmith
+    container_name: flagsmith_postgres
   api:
-    image: bullettrain/api:latest
+    image: flagsmith/flagsmith-api:latest
     environment:
       DJANGO_ALLOWED_HOSTS: localhost
-      DATABASE_URL: postgresql://postgres:password@db:5432/bullettrain
+      DATABASE_URL: postgresql://postgres:password@db:5432/flagsmith
       DJANGO_DB_HOST: db
-      DJANGO_DB_NAME: bullettrain
+      DJANGO_DB_NAME: flagsmith
       DJANGO_DB_USER: postgres
       DJANGO_DB_PASSWORD: password
       DJANGO_DB_PORT: 5432
-      REDIS_URL: redis://redis:6379/
     ports:
       - "8000:8000"
     depends_on:
       - db
-      - redis
     links:
       - db:db
-      - redis:redis
-    container_name: bullettrain_api
+    container_name: flagsmith_api
   frontend:
-    image: bullettrain/frontend:latest
+    image: flagsmith/flagsmith-frontend:latest
     environment:
       API_URL: http://localhost:8000/api/v1/
       ASSET_URL: http://localhost:8080/
@@ -40,4 +32,4 @@ services:
       - "8080:8080"
     links:
       - api:api
-    container_name: bullettrain_frontend
+    container_name: flagsmith_frontend

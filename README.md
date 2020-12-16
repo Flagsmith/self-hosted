@@ -1,12 +1,16 @@
-[<img alt="Feature Flag, Remote Config and A/B Testing platform, Bullet Train" width="100%" src="https://github.com/BulletTrainHQ/bullet-train-frontend/raw/master/hero.png"/>](https://bullet-train.io/)
+[<img alt="Feature Flag, Remote Config and A/B Testing platform, Flagsmith" width="100%" src="./hero.png"/>](https://flagsmith.com/)
 
-# Bullet Train in Docker
+[![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Bullet-Train/donate)
 
-You can use this repo to set up an entire [Bullet Train Feature Flag](https://bullet-train.io) environment locally. Just clone the repo and run docker-compose:
+Bullet Train is now Flagsmith read about it [here](https://flagsmith.com/blog/rebrand).
+
+# Flagsmith in Docker
+
+You can use this repo to set up an entire [Flagsmith Feature Flag](https://www.flagsmith.com) environment locally. Just clone the repo and run docker-compose:
 
 ```bash
-git clone https://github.com/BulletTrainHQ/bullet-train-docker.git
-cd bullet-train-docker
+git clone https://github.com/Flagsmith/flagsmith-docker.git
+cd flagsmith-docker
 docker-compose up
 ```
 
@@ -33,9 +37,9 @@ The Web user interface. From here you can create accounts and manage your flags.
 
 The web user interface communicates via REST to the API that powers the application. The SDK clients also connect to this API. The API is written in Django and the Django REST Framework.
 
-Once you have created an account and some flags, you can then start using the API with one of the [Bullet Train Client SDKs](https://github.com/BulletTrainHQ?q=client&type=&language=). You will need to override the API endpoint for each SDK to point to [http://localhost:8000/api/v1/](http://localhost:8000/api/v1/)
+Once you have created an account and some flags, you can then start using the API with one of the [Flagsmith Client SDKs](https://github.com/Flagsmith?q=client&type=&language=). You will need to override the API endpoint for each SDK to point to [http://localhost:8000/api/v1/](http://localhost:8000/api/v1/)
 
-You can access the Django Admin console to get CRUD access to some of the core tables within the API. You will need to create a super user account first. More information on how to create the super user account can be found here [https://github.com/BulletTrainHQ/bullet-train-api#locally](https://github.com/BulletTrainHQ/bullet-train-api#locally)
+You can access the Django Admin console to get CRUD access to some of the core tables within the API. You will need to create a super user account first. More information on how to create the super user account can be found here [https://github.com/Flagsmith/flagsmith-api#locally](https://github.com/Flagsmith/flagsmith-api)
 
 ### Postgres Database
 
@@ -45,7 +49,7 @@ The REST API stores all its data within a Postgres database.
 
 For more information, please visit:
 
-- [Bullet Train Feature Flag Homepage](https://bullet-train.io)
-- [Bullet Train Documentation](https://docs.bullet-train.io/)
-- [Web Front End on GitHub](https://github.com/BulletTrainHQ/bullet-train-frontend)
-- [REST API on GitHub](https://github.com/BulletTrainHQ/bullet-train-api)
+- [Flagsmith Feature Flag Homepage](https://www.flagsmith.com)
+- [Flagsmith Documentation](https://docs.flagsmith.com/)
+- [Web Front End on GitHub](https://github.com/Flagsmith/flagsmith-frontend)
+- [REST API on GitHub](https://github.com/Flagsmith/flagsmith-api)
