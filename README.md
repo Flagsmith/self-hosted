@@ -1,4 +1,4 @@
-[<img alt="Feature Flag, Remote Config and A/B Testing platform, Flagsmith" width="100%" src="./hero.png"/>](https://flagsmith.com/)
+[<img alt="Feature Flag, Remote Config and A/B Testing platform, Flagsmith" width="100%" src="https://github.com/Flagsmith/flagsmith-api/raw/master/hero.png"/>](https://flagsmith.com/)
 
 [![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Bullet-Train/donate)
 
