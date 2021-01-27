@@ -11,11 +11,6 @@ services:
     environment:
       DJANGO_ALLOWED_HOSTS: "*" # Change this in production
       DATABASE_URL: postgresql://postgres:password@db:5432/flagsmith
-      DJANGO_DB_HOST: db
-      DJANGO_DB_NAME: flagsmith
-      DJANGO_DB_USER: postgres
-      DJANGO_DB_PASSWORD: password
-      DJANGO_DB_PORT: 5432
     ports:
       - "8000:8000"
     depends_on:
