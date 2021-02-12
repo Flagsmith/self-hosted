@@ -43,7 +43,7 @@ You can create a Django Admin user to get access to the Django admin dashboard w
 
 ```bash
 # Make sure you are in the root directory of this repository
-docker-compose run --rm --entrypoint ".venv/bin/python src/manage.py createsuperuser" api
+docker-compose run --rm --entrypoint "python src/manage.py createsuperuser" api
 ```
 
 You can then access the admin dashboard at [http://localhost:8000/admin/](http://localhost:8000/admin/)
