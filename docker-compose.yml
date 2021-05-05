@@ -1,3 +1,5 @@
+# See https://docs.flagsmith.com/docker/ for more information on running Flagsmith in Docker
+
 version: "3"
 services:
   api:
@@ -5,26 +7,27 @@ services:
     environment:
       DJANGO_ALLOWED_HOSTS: "*" # Change this in production
       DATABASE_URL: postgresql://postgres:password@db:5432/flagsmith
-      INFLUXDB_URL: http://influxdb:8086
-      INFLUXDB_BUCKET: flagsmith_api
-      INFLUXDB_ORG: # Add your influx org id here - see readme.md
-      INFLUXDB_TOKEN: # Add your influx token here - see readme.md
-      
+      # INFLUXDB_URL: http://influxdb:8086
+      # INFLUXDB_BUCKET: flagsmith_api
+      # INFLUXDB_ORG: # Add your influx org id here - see readme.md
+      # INFLUXDB_TOKEN: # Add your influx token here - see readme.md
     ports:
       - "8000:8000"
     depends_on:
       - db
     links:
       - db:db
-      - influxdb:influxdb
+      # - influxdb:influxdb
     container_name: flagsmith_api
 
   frontend:
     image: flagsmith/flagsmith-frontend:latest
     environment:
       # You might need to change the 2 host names below depending on your docker dns setup
-      API_URL: http://localhost:8000/api/v1/ 
+      API_URL: http://localhost:8000/api/v1/
       ASSET_URL: http://localhost:8080/
+      DISABLE_INFLUXDB_FEATURES: 1 # Switch to 0 to enable InfluxDB
+      FLAGSMITH: 4vfqhypYjcPoGGu8ByrBaj # This is the production Flagsmith API key
     ports:
       - "8080:8080"
     links:
@@ -38,9 +41,10 @@ services:
       POSTGRES_DB: flagsmith
     container_name: flagsmith_postgres
     
-  influxdb:
-    image: quay.io/influxdb/influxdb:v2.0.3
-    container_name: flagsmith_influxdb
-    ports:
-      - "8086:8086"
-    
+  # InfluxDB requires additional setup - please see https://docs.flagsmith.com/deployment-overview/#influxdb
+  # Note that InfluxDB is optional, but enabling it will provide additional functionality to the Flagsmith platform
+  # influxdb:
+  #   image: quay.io/influxdb/influxdb:v2.0.3
+  #   container_name: flagsmith_influxdb
+  #   ports:
+  #     - "8086:8086"
