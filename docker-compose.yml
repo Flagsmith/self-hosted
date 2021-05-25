@@ -35,12 +35,12 @@ services:
     container_name: flagsmith_frontend
 
   db:
-    image: postgres:10.6-alpine
+    image: postgres:11.12-alpine
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: flagsmith
     container_name: flagsmith_postgres
-    
+
   # InfluxDB requires additional setup - please see https://docs.flagsmith.com/deployment-overview/#influxdb
   # Note that InfluxDB is optional, but enabling it will provide additional functionality to the Flagsmith platform
   # influxdb:
