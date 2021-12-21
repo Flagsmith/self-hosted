@@ -16,7 +16,7 @@ git clone git@github.com:flagsmith/self-hosted.git
 docker-compose -f self-hosted/docker-compose.yml up
 ```
 
-![Flagsmith Screenshot]([static-files](https://github.com/Flagsmith/flagsmith/raw/main/static-files)/screenshot.png)
+[![Feature Screenshot](https://github.com/Flagsmith/flagsmith/raw/main/static-files/screenshot.png)](https://www.flagsmith.com/)
 
 ## Features
 
