@@ -1,4 +1,4 @@
-[![Feature Flag, Remote Config and A/B Testing platform, Flagsmith](static-files/hero.png)](https://www.flagsmith.com/)
+[![Feature Flag, Remote Config and A/B Testing platform, Flagsmith](https://github.com/Flagsmith/flagsmith/raw/main/static-files/hero.png)](https://www.flagsmith.com/)
 
 [Flagsmith](https://www.flagsmith.com/) is an open source, fully featured, Feature Flag and Remote Config service. Use
 our hosted API, deploy to your own private cloud, or run on-premise.
@@ -12,11 +12,11 @@ or user segments.
 Get up and running in 1 minute with:
 
 ```bash
-git clone git@github.com:flagsmith/flagsmith.git
-docker-compose -f flagsmith/docker/docker-compose.yml up
+git clone git@github.com:flagsmith/self-hosted.git
+docker-compose -f self-hosted/docker-compose.yml up
 ```
 
-![Flagsmith Screenshot](static-files/screenshot.png)
+![Flagsmith Screenshot]([static-files](https://github.com/Flagsmith/flagsmith/raw/main/static-files)/screenshot.png)
 
 ## Features
 
@@ -33,6 +33,6 @@ For full documentation visit [https://docs.flagsmith.com/deployment/docker](http
 
 ## Resources
 
-* [Website](https://www.flagsmith.com/)
-* [Documentation](https://docs.flagsmith.com/)
-* If you have any questions about our projects you can email [support@flagsmith.com](mailto:support@flagsmith.com)
+- [Website](https://www.flagsmith.com/)
+- [Documentation](https://docs.flagsmith.com/)
+- If you have any questions about our projects you can email [support@flagsmith.com](mailto:support@flagsmith.com)
