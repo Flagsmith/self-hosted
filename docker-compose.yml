@@ -18,7 +18,8 @@ services:
             - pgdata:/var/lib/postgresql/data
 
     flagsmith:
-        image: flagsmith/flagsmith:latest
+        image: flagsmith/flagsmith-api:latest
+        platform: linux/amd64
         environment:
             # All environments variables are available here:
             # API: https://docs.flagsmith.com/deployment/locally-api#environment-variables
@@ -29,6 +30,7 @@ services:
             DISABLE_INFLUXDB_FEATURES: "true" # set to 'false' to enable InfluxDB
 
             ENV: prod # set to "prod" in production.
+
 
             # For more info on configuring InfluxDB - https://docs.flagsmith.com/deployment/overview#influxdb
             # INFLUXDB_URL: http://influxdb:8086
