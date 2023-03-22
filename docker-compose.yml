@@ -4,68 +4,68 @@
 version: "3"
 
 volumes:
-    pgdata:
+  pgdata:
 
 services:
-    postgres:
-        image: postgres:11.12-alpine
-        environment:
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: flagsmith
-        container_name: flagsmith_postgres
-        volumes:
-            - pgdata:/var/lib/postgresql/data
+  postgres:
+    image: postgres:11.12-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: flagsmith
+    container_name: flagsmith_postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
-    flagsmith:
-        image: flagsmith/flagsmith:latest
-        environment:
-            # All environments variables are available here:
-            # API: https://docs.flagsmith.com/deployment/locally-api#environment-variables
-            # UI: https://docs.flagsmith.com/deployment/locally-frontend#environment-variables
+  flagsmith:
+    image: flagsmith/flagsmith:latest
+    environment:
+      # All environments variables are available here:
+      # API: https://docs.flagsmith.com/deployment/locally-api#environment-variables
+      # UI: https://docs.flagsmith.com/deployment/locally-frontend#environment-variables
 
-            ENV: prod # set to "prod" in production.
-            DJANGO_ALLOWED_HOSTS: '*' # Change this in production
-            DATABASE_URL: postgresql://postgres:password@postgres:5432/flagsmith
-            USE_POSTGRES_FOR_ANALYTICS: 'True' # Store API and Flag Analytics data in Postgres
-            # PREVENT_SIGNUP: 'True' # Uncomment to prevent additional signups
-            # ENABLE_ADMIN_ACCESS_USER_PASS: True # set to True to enable access to the /admin/ Django backend via your username and password
-            # ALLOW_REGISTRATION_WITHOUT_INVITE: True
+      ENV: prod # set to "prod" in production.
+      DJANGO_ALLOWED_HOSTS: "*" # Change this in production
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/flagsmith
+      USE_POSTGRES_FOR_ANALYTICS: "True" # Store API and Flag Analytics data in Postgres
+      # PREVENT_SIGNUP: 'True' # Uncomment to prevent additional signups
+      # ENABLE_ADMIN_ACCESS_USER_PASS: True # set to True to enable access to the /admin/ Django backend via your username and password
+      # ALLOW_REGISTRATION_WITHOUT_INVITE: True
 
-            # Enable Task Processor
-            # To use task processor service, uncomment line below and additional 'flagsmith_processor'
-            # container below
-            TASK_RUN_METHOD: TASK_PROCESSOR # other options are: SYNCHRONOUSLY, SEPARATE_THREAD (default)
+      # Enable Task Processor
+      # To use task processor service, uncomment line below and additional 'flagsmith_processor'
+      # container below
+      TASK_RUN_METHOD: TASK_PROCESSOR # other options are: SYNCHRONOUSLY, SEPARATE_THREAD (default)
 
-            # For more info on configuring E-Mails - https://docs.flagsmith.com/deployment/locally-api#environment-variables
-            #
-            # Example SMTP:
-            # EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
-            # EMAIL_HOST: mail.example.com
-            # SENDER_EMAIL: flagsmith@example.com
-            # EMAIL_HOST_USER: flagsmith@example.com
-            # EMAIL_HOST_PASSWORD: smtp_account_password
-            # EMAIL_PORT: 587 # optional
-            # EMAIL_USE_TLS: True # optional
+      # For more info on configuring E-Mails - https://docs.flagsmith.com/deployment/locally-api#environment-variables
+      #
+      # Example SMTP:
+      # EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
+      # EMAIL_HOST: mail.example.com
+      # SENDER_EMAIL: flagsmith@example.com
+      # EMAIL_HOST_USER: flagsmith@example.com
+      # EMAIL_HOST_PASSWORD: smtp_account_password
+      # EMAIL_PORT: 587 # optional
+      # EMAIL_USE_TLS: True # optional
 
-        ports:
-            - "8000:8000"
-        depends_on:
-            - postgres
-        links:
-            - postgres
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    links:
+      - postgres
 
-    flagsmith_processor:
-        image: flagsmith/flagsmith:latest
-        environment:
-            DATABASE_URL: postgresql://postgres:password@postgres:5432/flagsmith
-        entrypoint:
-            - "python"
-            - "manage.py"
-            - "runprocessor"
-            - "--sleepintervalms"
-            - "500"
-        depends_on:
-            - flagsmith
-            - postgres
-        links:
-            - postgres
+  flagsmith_processor:
+    image: flagsmith/flagsmith:latest
+    environment:
+      DATABASE_URL: postgresql://postgres:password@postgres:5432/flagsmith
+    entrypoint:
+      - "python"
+      - "manage.py"
+      - "runprocessor"
+      - "--sleepintervalms"
+      - "500"
+    depends_on:
+      - flagsmith
+      - postgres
+    links:
+      - postgres
