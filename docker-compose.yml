@@ -58,7 +58,6 @@ services:
     image: flagsmith/flagsmith:latest
     environment:
       DATABASE_URL: postgresql://postgres:password@postgres:5432/flagsmith
-      LOG_LEVEL: DEBUG
       USE_POSTGRES_FOR_ANALYTICS: "True"
     entrypoint:
       - "python"
