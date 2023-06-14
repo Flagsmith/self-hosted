@@ -59,14 +59,9 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres:password@postgres:5432/flagsmith
       USE_POSTGRES_FOR_ANALYTICS: "True"
-    entrypoint:
-      - "python"
-      - "manage.py"
-      - "runprocessor"
-      - "--sleepintervalms"
-      - "500"
     depends_on:
       - flagsmith
       - postgres
     links:
       - postgres
+    command: run-task-processor
