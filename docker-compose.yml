@@ -6,6 +6,7 @@ version: "3"
 volumes:
   pgdata:
 
+
 services:
   postgres:
     image: postgres:11.12-alpine
@@ -35,7 +36,6 @@ services:
       # To use task processor service, uncomment line below and additional 'flagsmith_processor'
       # container below
       TASK_RUN_METHOD: TASK_PROCESSOR # other options are: SYNCHRONOUSLY, SEPARATE_THREAD (default)
-
       # For more info on configuring E-Mails - https://docs.flagsmith.com/deployment/locally-api#environment-variables
       #
       # Example SMTP:
@@ -59,14 +59,9 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres:password@postgres:5432/flagsmith
       USE_POSTGRES_FOR_ANALYTICS: "True"
-    entrypoint:
-      - "python"
-      - "manage.py"
-      - "runprocessor"
-      - "--sleepintervalms"
-      - "500"
     depends_on:
       - flagsmith
       - postgres
     links:
       - postgres
+    command: run-task-processor
