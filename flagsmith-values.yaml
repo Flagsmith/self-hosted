@@ -1,0 +1,16 @@
+api:
+  extraEnv:
+    USE_SECURE_COOKIES: false
+frontend:
+  extraEnv:
+    USE_SECURE_COOKIES: false
+taskProcessor:
+  enabled: true
+postgresql:
+  enabled: true
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+influxdb2:
+  enabled: false

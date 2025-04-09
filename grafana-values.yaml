@@ -1,0 +1,81 @@
+persistence:
+  enabled: true
+  type: pvc
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-server.monitoring.svc.cluster.local
+        access: proxy
+        isDefault: true
+      - name: PostgreSQL 2.166.0
+        type: postgres
+        url: flagsmith-2-166-0-dev-postgresql.flagsmith-2-166-0.svc.cluster.local:5432
+        database: flagsmith
+        user: postgres
+        secureJsonData:
+          password: flagsmith
+        jsonData:
+          sslmode: disable
+      - name: PostgreSQL Prometheus
+        type: postgres
+        url: flagsmith-prometheus-dev-postgresql.flagsmith-prometheus.svc.cluster.local:5432
+        database: flagsmith
+        user: postgres
+        secureJsonData:
+          password: flagsmith
+        jsonData:
+          sslmode: disable
+grafana.ini:
+  auth.anonymous:
+    enabled: true
+    org_role: Admin
+  server:
+    domain: "localhost"
+    root_url: "%(protocol)s://%(domain)s:%(http_port)s/"
+    serve_from_sub_path: false
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'kubernetes'
+      orgId: 1
+      folder: 'Kubernetes'
+      type: file
+      disableDeletion: true
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/kubernetes
+    - name: 'flagsmith'
+      orgId: 1
+      folder: 'Flagsmith'
+      type: file
+      disableDeletion: true
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/flagsmith
+dashboards:
+  kubernetes:
+    k8s-system-api-server:
+      url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
+      token: ''
+    k8s-system-coredns:
+      url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
+      token: ''
+    k8s-views-global:
+      url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
+      token: ''
+    k8s-views-namespaces:
+      url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
+      token: ''
+    k8s-views-nodes:
+      url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
+      token: ''
+    k8s-views-pods:
+      url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
+      token: ''
+  flagsmith:
+    flagsmith-api:
+      file: flagsmith-api-dashboard.json

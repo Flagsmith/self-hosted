@@ -11,130 +11,31 @@ releases:
     namespace: flagsmith-2-166-0
     chart: flagsmith/flagsmith
     values:
+      - flagsmith-values.yaml
       - api:
           image:
             tag: 2.166.0
-      - postgresql:
-          enabled: true
-          metrics:
-            enabled: true
-            serviceMonitor:
-              enabled: true
-      - influxdb:
-          enabled: false
 
   - name: flagsmith-prometheus
     namespace: flagsmith-prometheus
     chart: flagsmith/flagsmith
+    version: 0.72.0
     values:
+      - flagsmith-values.yaml
       - api:
           image:
-            repository: ghcr.io/flagsmith/flagsmith-private-cloud
-            tag: pr-5254
+            tag: 2.170.0
           extraEnv:
             PROMETHEUS_ENABLED: true
-      - postgresql:
-          enabled: true
-          metrics:
-            enabled: true
-            serviceMonitor:
-              enabled: true
-      - influxdb:
-          enabled: false
 
   - name: prometheus
     namespace: monitoring
     chart: prometheus-community/prometheus
     values:
-      - server:
-          extraScrapeConfigs: |
-            - job_name: flagsmith
-              static_configs:
-                - targets:
-                  - flagsmith-prometheus-api.flagsmith-prometheus.svc.cluster.local/metrics
+      - prometheus-values.yaml
 
   - name: grafana
     namespace: monitoring
     chart: grafana/grafana
     values:
-      - persistence:
-          enabled: true
-          type: pvc
-      - datasources:
-          datasources.yaml:
-            apiVersion: 1
-            datasources:
-              - name: Prometheus
-                type: prometheus
-                url: http://prometheus-server.monitoring.svc.cluster.local
-                access: proxy
-                isDefault: true
-              - name: PostgreSQL 2.166.0
-                type: postgres
-                url: flagsmith-2-166-0-dev-postgresql.flagsmith-2-166-0.svc.cluster.local:5432
-                database: flagsmith
-                user: postgres
-                secureJsonData:
-                  password: flagsmith
-                jsonData:
-                  sslmode: disable
-              - name: PostgreSQL Prometheus
-                type: postgres
-                url: flagsmith-prometheus-dev-postgresql.flagsmith-prometheus.svc.cluster.local:5432
-                database: flagsmith
-                user: postgres
-                secureJsonData:
-                  password: flagsmith
-                jsonData:
-                  sslmode: disable
-      - grafana.ini:
-          auth.anonymous:
-            enabled: true
-            org_role: Admin
-          server:
-            domain: "localhost"
-            root_url: "%(protocol)s://%(domain)s:%(http_port)s/"
-            serve_from_sub_path: false
-      - dashboardProviders:
-          dashboardproviders.yaml:
-            apiVersion: 1
-            providers:
-            - name: 'kubernetes'
-              orgId: 1
-              folder: 'Kubernetes'
-              type: file
-              disableDeletion: true
-              editable: true
-              options:
-                path: /var/lib/grafana/dashboards/kubernetes
-            - name: 'flagsmith'
-              orgId: 1
-              folder: 'Flagsmith'
-              type: file
-              disableDeletion: false
-              editable: true
-              options:
-                path: /var/lib/grafana/dashboards/flagsmith
-      - dashboards:
-          kubernetes:
-            k8s-system-api-server:
-              url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
-              token: ''
-            k8s-system-coredns:
-              url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
-              token: ''
-            k8s-views-global:
-              url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
-              token: ''
-            k8s-views-namespaces:
-              url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
-              token: ''
-            k8s-views-nodes:
-              url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
-              token: ''
-            k8s-views-pods:
-              url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
-              token: ''
-          flagsmith:
-            flagsmith-api:
-              file: dashboards/flagsmith-api.json
+      - grafana-values.yaml
