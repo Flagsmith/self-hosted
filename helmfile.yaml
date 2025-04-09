@@ -8,7 +8,7 @@ repositories:
 
 releases:
   - name: flagsmith-2-166-0
-    namespace: flagsmith
+    namespace: flagsmith-2-166-0
     chart: flagsmith/flagsmith
     values:
       - api:
@@ -71,7 +71,7 @@ releases:
                 isDefault: true
               - name: PostgreSQL 2.166.0
                 type: postgres
-                url: flagsmith-2-166-0-dev-postgresql.flagsmith.svc.cluster.local:5432
+                url: flagsmith-2-166-0-dev-postgresql.flagsmith-2-166-0.svc.cluster.local:5432
                 database: flagsmith
                 user: postgres
                 secureJsonData:
@@ -90,26 +90,24 @@ releases:
       - grafana.ini:
           auth.anonymous:
             enabled: true
-            org_role: Admin 
+            org_role: Admin
           server:
             domain: "localhost"
             root_url: "%(protocol)s://%(domain)s:%(http_port)s/"
             serve_from_sub_path: false
-          dashboards:
-            default_home_dashboard_path: /var/lib/grafana/dashboards/flagsmith/flagsmith-overview.json
       - dashboardProviders:
           dashboardproviders.yaml:
             apiVersion: 1
             providers:
-            - name: 'grafana-dashboards-kubernetes'
+            - name: 'kubernetes'
               orgId: 1
               folder: 'Kubernetes'
               type: file
               disableDeletion: true
               editable: true
               options:
-                path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
-            - name: 'flagsmith-dashboards'
+                path: /var/lib/grafana/dashboards/kubernetes
+            - name: 'flagsmith'
               orgId: 1
               folder: 'Flagsmith'
               type: file
@@ -118,7 +116,7 @@ releases:
               options:
                 path: /var/lib/grafana/dashboards/flagsmith
       - dashboards:
-          grafana-dashboards-kubernetes:
+          kubernetes:
             k8s-system-api-server:
               url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
               token: ''
@@ -138,5 +136,5 @@ releases:
               url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
               token: ''
           flagsmith:
-            flagsmith-overview:
-              file: dashboards/flagsmith-overview.json
+            flagsmith-api:
+              file: dashboards/flagsmith-api.json
