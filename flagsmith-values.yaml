@@ -1,19 +1,41 @@
 api:
+  image:
+    repository: flagsmith/flagsmith-private-cloud-api
   extraEnv:
     USE_SECURE_COOKIES: false
-    ACCESS_LOG_LOCATION: "-"
+    PROMETHEUS_ENABLED: true
+    ACCESS_LOG_LOCATION: '-'
+
 taskProcessor:
   enabled: true
   extraEnv:
-    ACCESS_LOG_LOCATION: "-"
+    PROMETHEUS_ENABLED: true
+    ACCESS_LOG_LOCATION: '-'
+
 frontend:
   extraEnv:
     USE_SECURE_COOKIES: false
+
 postgresql:
   enabled: true
   metrics:
     enabled: true
     serviceMonitor:
       enabled: true
+
+extraObjects:
+  - apiVersion: monitoring.coreos.com/v1
+    kind: ServiceMonitor
+    metadata:
+      name: flagsmith
+    spec:
+      selector:
+        matchExpressions:
+          - { key: app.kubernetes.io/component, operator: In, values: [ api, task-processor ] }
+      endpoints:
+        - port: http
+          interval: 15s
+          path: /metrics
+
 influxdb2:
   enabled: false

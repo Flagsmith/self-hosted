@@ -3,59 +3,20 @@ repositories:
     url: https://flagsmith.github.io/flagsmith-charts
   - name: prometheus-community
     url: https://prometheus-community.github.io/helm-charts
-  - name: grafana
-    url: https://grafana.github.io/helm-charts
 
 releases:
-  - name: flagsmith-2-166-0
-    namespace: flagsmith-2-166-0
+  - name: flagsmith
+    namespace: flagsmith
     chart: flagsmith/flagsmith
+    version: 0.72.1
     values:
       - flagsmith-values.yaml
-      - api:
-          image:
-            tag: 2.166.0
-
-  - name: flagsmith-prometheus
-    namespace: flagsmith-prometheus
-    chart: flagsmith/flagsmith
-    version: 0.72.0
-    values:
-      - flagsmith-values.yaml
-      - api:
-          image:
-            repository: flagsmith/flagsmith-private-cloud-api
-            tag: 2.170.0
-          extraEnv:
-            PROMETHEUS_ENABLED: "true"
-      - taskProcessor:
-          image:
-            repository: flagsmith/flagsmith-private-cloud-api
-            tag: 2.170.0
-          extraEnv:
-            PROMETHEUS_ENABLED: "true"
-      - extraObjects:
-          - |
-            apiVersion: monitoring.coreos.com/v1
-            kind: ServiceMonitor
-            metadata:
-              name: flagsmith-prometheus
-              namespace: {{`{{ .Release.Namespace }}`}}
-              labels:
-                app.kubernetes.io/component: prometheus
-            spec:
-              # jobLabel: app.kubernetes.io/component  # uncomment to try aggregating by component name, not service name
-              selector:
-                matchExpressions:
-                - {key: app.kubernetes.io/component, operator: In, values: [api, task-processor, prometheus]}
-              namespaceSelector:
-                matchNames:
-                - {{`{{ .Release.Namespace }}`}}
-              endpoints:
-                - interval: 15s
-                  path: /metrics
-                  targetPort: {{`{{ .Values.service.taskProcessor.port }}`}}
 
   - name: prometheus
     namespace: monitoring
     chart: prometheus-community/kube-prometheus-stack
+    values:
+      - grafana-values.yaml.gotmpl
+      - prometheus:
+          prometheusSpec:
+            serviceMonitorSelectorNilUsesHelmValues: false

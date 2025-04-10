@@ -1,0 +1,40 @@
+grafana:
+  persistence:
+    enabled: true
+    type: pvc
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: PostgreSQL
+          type: postgres
+          url: flagsmith-dev-postgresql.flagsmith-prometheus.svc.cluster.local:5432
+          database: flagsmith
+          user: postgres
+          secureJsonData:
+            password: flagsmith
+          jsonData:
+            sslmode: disable
+  grafana.ini:
+    auth.anonymous:
+      enabled: true
+      org_role: Admin
+    server:
+      domain: localhost
+      root_url: '%(protocol)s://%(domain)s:%(http_port)s/'
+      serve_from_sub_path: false
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: default
+        orgId: 1
+        type: file
+        disableDeletion: true
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+  dashboards:
+    default:
+      flagsmith:
+        json: {{ readFile "flagsmith-api-dashboard.json" | toJson }}
