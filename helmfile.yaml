@@ -40,7 +40,7 @@ releases:
             kind: ServiceMonitor
             metadata:
               name: flagsmith-prometheus
-              namespace: {{ .Release.Namespace }}
+              namespace: {{`{{ .Release.Namespace }}`}}
               labels:
                 app.kubernetes.io/component: prometheus
             spec:
@@ -50,11 +50,11 @@ releases:
                 - {key: app.kubernetes.io/component, operator: In, values: [api, task-processor, prometheus]}
               namespaceSelector:
                 matchNames:
-                - {{ .Release.Namespace }}
+                - {{`{{ .Release.Namespace }}`}}
               endpoints:
                 - interval: 15s
                   path: /metrics
-                  targetPort: {{ .Values.service.taskProcessor.port }}
+                  targetPort: {{`{{ .Values.service.taskProcessor.port }}`}}
 
   - name: prometheus
     namespace: monitoring
