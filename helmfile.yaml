@@ -59,6 +59,9 @@ releases:
   - name: prometheus
     namespace: monitoring
     chart: prometheus-community/kube-prometheus-stack
+    values:
+      - grafana:
+          enabled: false
 
   - name: grafana
     namespace: monitoring
