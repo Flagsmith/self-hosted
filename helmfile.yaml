@@ -51,8 +51,9 @@ releases:
                 matchNames:
                 - {{ .Release.Namespace }}
               endpoints:
-              - port: http-metrics
-                interval: 15s
+                - interval: 15s
+                  path: /metrics
+                  targetPort: {{ .Values.service.taskProcessor.port }}
 
   - name: prometheus
     namespace: monitoring
