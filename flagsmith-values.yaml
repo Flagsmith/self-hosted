@@ -1,11 +1,11 @@
 api:
   extraEnv:
     USE_SECURE_COOKIES: false
-    ACCESS_LOG_LOCATION: '-'
+    ACCESS_LOG_LOCATION: "-"
 taskProcessor:
   enabled: true
   extraEnv:
-    ACCESS_LOG_LOCATION: '-'
+    ACCESS_LOG_LOCATION: "-"
 frontend:
   extraEnv:
     USE_SECURE_COOKIES: false

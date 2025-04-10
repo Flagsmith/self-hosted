@@ -27,13 +27,36 @@ releases:
             repository: flagsmith/flagsmith-private-cloud-api
             tag: 2.170.0
           extraEnv:
-            PROMETHEUS_ENABLED: true
+            PROMETHEUS_ENABLED: "true"
+      - taskProcessor:
+          image:
+            repository: flagsmith/flagsmith-private-cloud-api
+            tag: 2.170.0
+          extraEnv:
+            PROMETHEUS_ENABLED: "true"
+      - extraObjects:
+          - |
+            apiVersion: monitoring.coreos.com/v1
+            kind: ServiceMonitor
+            metadata:
+              name: k8s-apps-http
+              labels:
+                k8s-apps: http
+            spec:
+              # jobLabel: app.kubernetes.io/component  # uncomment to try aggregating by component name, not service name
+              selector:
+                matchExpressions:
+                - {key: app.kubernetes.io/component, operator: In, values: [api, task-processor]}
+              namespaceSelector:
+                matchNames:
+                - {{ .Release.Namespace }}
+              endpoints:
+              - port: http-metrics
+                interval: 15s
 
   - name: prometheus
     namespace: monitoring
-    chart: prometheus-community/prometheus
-    values:
-      - prometheus-values.yaml
+    chart: prometheus-community/kube-prometheus-stack
 
   - name: grafana
     namespace: monitoring
