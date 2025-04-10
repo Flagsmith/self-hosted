@@ -39,14 +39,14 @@ releases:
             apiVersion: monitoring.coreos.com/v1
             kind: ServiceMonitor
             metadata:
-              name: k8s-apps-http
+              name: flagsmith-prometheus
               labels:
-                k8s-apps: http
+                app.kubernetes.io/component: prometheus
             spec:
               # jobLabel: app.kubernetes.io/component  # uncomment to try aggregating by component name, not service name
               selector:
                 matchExpressions:
-                - {key: app.kubernetes.io/component, operator: In, values: [api, task-processor]}
+                - {key: app.kubernetes.io/component, operator: In, values: [api, task-processor, prometheus]}
               namespaceSelector:
                 matchNames:
                 - {{ .Release.Namespace }}
