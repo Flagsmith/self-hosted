@@ -24,6 +24,7 @@ releases:
       - flagsmith-values.yaml
       - api:
           image:
+            repository: flagsmith/flagsmith-private-cloud-api
             tag: 2.170.0
           extraEnv:
             PROMETHEUS_ENABLED: true

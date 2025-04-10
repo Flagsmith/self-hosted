@@ -1,9 +1,11 @@
 extraScrapeConfigs: |
     - job_name: flagsmith-api
+      scrape_interval: 5s
       static_configs:
         - targets:
             - flagsmith-prometheus-api.flagsmith-prometheus.svc.cluster.local:8000
     - job_name: flagsmith-task-processor
+      scrape_interval: 5s
       static_configs:
         - targets:
           - flagsmith-prometheus-task-processor.flagsmith-prometheus.svc.cluster.local:8000
