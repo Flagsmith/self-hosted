@@ -5,16 +5,19 @@ api:
     USE_SECURE_COOKIES: false
     PROMETHEUS_ENABLED: true
     ACCESS_LOG_LOCATION: '-'
+  replicacount: 2
 
 taskProcessor:
   enabled: true
   extraEnv:
     PROMETHEUS_ENABLED: true
     ACCESS_LOG_LOCATION: '-'
+  replicacount: 2
 
 frontend:
   extraEnv:
     USE_SECURE_COOKIES: false
+  replicacount: 2
 
 postgresql:
   enabled: true
