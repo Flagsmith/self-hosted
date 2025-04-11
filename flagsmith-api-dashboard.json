@@ -1248,8 +1248,8 @@
           "sortDesc": true
         },
         "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
+          "hideZeros": true,
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -1364,8 +1364,8 @@
           "sortDesc": true
         },
         "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
+          "hideZeros": true,
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -1724,9 +1724,9 @@
           "sortDesc": true
         },
         "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "pluginVersion": "11.6.0",
@@ -1837,9 +1837,9 @@
           "sortDesc": true
         },
         "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "pluginVersion": "11.6.0",
@@ -1897,5 +1897,5 @@
   "timezone": "",
   "title": "Flagsmith API and task processor",
   "uid": "flagsmith-http",
-  "version": 4
+  "version": 7
 }
