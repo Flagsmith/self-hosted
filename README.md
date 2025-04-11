@@ -1,6 +1,8 @@
 # Self-hosted Flagsmith example
 
-This example deploys Flagsmith using kube-prometheus with Grafana for monitoring.
+This example deploys Flagsmith to Kubernetes. It also deploys
+[kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) with
+Grafana for monitoring.
 
 Flagsmith API and task processor pods are scraped using a [`ServiceMonitor`](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.ServiceMonitor).
 
