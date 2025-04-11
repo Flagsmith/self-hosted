@@ -139,7 +139,7 @@
           "refId": "B"
         }
       ],
-      "title": "Pods per service/version",
+      "title": "Scraped pods per service/version",
       "type": "timeseries"
     },
     {
