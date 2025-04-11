@@ -20,3 +20,6 @@ releases:
       - prometheus:
           prometheusSpec:
             serviceMonitorSelectorNilUsesHelmValues: false
+      - kube-state-metrics:
+          metricLabelsAllowlist:
+            - deployments=[helm.sh/chart]
