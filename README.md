@@ -17,3 +17,7 @@ helmfile sync
 ```
 
 Grafana dashboards are available at http://prometheus-grafana.monitoring.svc.cluster.local/.
+
+## Dashboard example
+
+![dashboard.png](dashboard.png)
