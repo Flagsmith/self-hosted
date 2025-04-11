@@ -73,63 +73,35 @@
           "decimals": 0,
           "fieldMinMax": false,
           "mappings": [],
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "red"
               }
             ]
           }
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Value"
-            },
-            "properties": [
-              {
-                "id": "color"
-              }
-            ]
-          },
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "flagsmith-task-processor",
-                  "flagsmith",
-                  "{__name__=\"flagsmith_build_info\", ci_commit_sha=\"81b285d333c1fb6f6e2e9912c86b00dc209ba5bb\", container=\"flagsmith-api\", endpoint=\"http\", instance=\"192.168.194.87:8000\", job=\"flagsmith\", namespace=\"flagsmith\", pod=\"flagsmith-api-7b75b68887-jhwqf\", service=\"flagsmith-api\", version=\"2.170.0\"}"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": []
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 9,
-        "w": 7,
+        "w": 8,
         "x": 0,
         "y": 0
       },
       "id": 17,
       "options": {
         "legend": {
-          "calcs": [],
-          "displayMode": "list",
+          "calcs": [
+            "last"
+          ],
+          "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Name",
+          "sortDesc": false
         },
         "tooltip": {
           "hideZeros": false,
@@ -140,14 +112,31 @@
       "pluginVersion": "11.6.0",
       "targets": [
         {
+          "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "count by (service, version) (flagsmith_build_info)  ",
+          "expr": "count by(service, version) (flagsmith_build_info)",
           "format": "time_series",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": false,
           "legendFormat": "{{ service }} {{ version }}",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "builder",
+          "expr": "",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Pods per service/version",
@@ -230,7 +219,7 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 7,
+        "w": 8,
         "x": 0,
         "y": 10
       },
@@ -298,6 +287,252 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 10
+      },
+      "id": 27,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource_prometheus}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "histogram_quantile(0.95, sum(rate(flagsmith_task_processor_task_duration_seconds_bucket[$__rate_interval])) by (le, result))",
+          "format": "time_series",
+          "instant": false,
+          "legendFormat": "p95 {{result}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource_prometheus}"
+          },
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.50, sum(rate(flagsmith_task_processor_task_duration_seconds_bucket[$__rate_interval])) by (le, result))",
+          "hide": false,
+          "legendFormat": "p50 {{result}}",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource_prometheus}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "histogram_quantile(0.99, sum(rate(flagsmith_task_processor_task_duration_seconds_bucket[$__rate_interval])) by (le, result))",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "p99 {{result}}",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "Task duration",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource_prometheus}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds",
+            "seriesBy": "max"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 10
+      },
+      "id": 24,
+      "options": {
+        "legend": {
+          "calcs": [
+            "sum"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Total",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource_prometheus}"
+          },
+          "editorMode": "code",
+          "expr": "sum(\n  increase(\n    flagsmith_task_processor_finished_tasks_total{result!=\"success\"}[$__rate_interval]\n  )\n) by (task_identifier)\n\nor vector(0)",
+          "format": "time_series",
+          "legendFormat": "{{task_identifier}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Failed tasks",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "tasks\\.(.*)",
+            "renamePattern": "$1"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource_prometheus}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
@@ -343,9 +578,9 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 7,
-        "x": 7,
-        "y": 10
+        "w": 12,
+        "x": 0,
+        "y": 19
       },
       "id": 31,
       "options": {
@@ -411,7 +646,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 10,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -420,19 +655,16 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
-              "mode": "normal"
+              "mode": "none"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -447,29 +679,32 @@
               },
               {
                 "color": "red",
-                "value": 1
+                "value": 80
               }
             ]
-          }
+          },
+          "unit": "s"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 9,
-        "w": 7,
-        "x": 14,
-        "y": 10
+        "w": 12,
+        "x": 12,
+        "y": 19
       },
-      "id": 24,
+      "id": 21,
       "options": {
         "legend": {
           "calcs": [
-            "sum"
+            "mean",
+            "p95",
+            "max"
           ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
-          "sortBy": "Total",
+          "sortBy": "Max",
           "sortDesc": true
         },
         "tooltip": {
@@ -486,14 +721,13 @@
             "uid": "${datasource_prometheus}"
           },
           "editorMode": "code",
-          "expr": "sum(\n  increase(\n    flagsmith_task_processor_finished_tasks_total{result!=\"success\"}[$__rate_interval]\n  )\n) by (task_identifier)\n\nor vector(0)",
-          "format": "time_series",
-          "legendFormat": "__auto",
+          "expr": "histogram_quantile(0.95, sum(rate(flagsmith_task_processor_task_duration_seconds_bucket[$__rate_interval])) by (le, task_identifier))",
+          "legendFormat": "{{task_identifier}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Failed tasks",
+      "title": "p95 duration by task",
       "transformations": [
         {
           "id": "renameByRegex",
@@ -506,216 +740,12 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource_prometheus}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 12,
-        "w": 12,
-        "x": 0,
-        "y": 19
-      },
-      "id": 27,
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true,
-          "sortBy": "Max",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource_prometheus}"
-          },
-          "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(flagsmith_task_processor_task_duration_seconds_bucket[$__rate_interval])) by (le, task_identifier, result))",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "p95 task duration",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${datasource_prometheus}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 12,
-        "w": 12,
-        "x": 12,
-        "y": 19
-      },
-      "id": 21,
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true,
-          "sortBy": "Max",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource_prometheus}"
-          },
-          "editorMode": "code",
-          "expr": "histogram_quantile(0.50, sum(rate(flagsmith_task_processor_task_duration_seconds_bucket{job=~\"$task_processor_job\"}[$__rate_interval])) by (le, task_identifier, result))",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "p50 task duration",
-      "type": "timeseries"
-    },
-    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 31
+        "y": 28
       },
       "id": 12,
       "panels": [],
@@ -782,7 +812,7 @@
         "h": 11,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 29
       },
       "id": 18,
       "options": {
@@ -794,7 +824,7 @@
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
-          "sortBy": "Name",
+          "sortBy": "Mean",
           "sortDesc": true
         },
         "tooltip": {
@@ -880,7 +910,7 @@
         "h": 11,
         "w": 12,
         "x": 12,
-        "y": 32
+        "y": 29
       },
       "id": 2,
       "options": {
@@ -892,7 +922,7 @@
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
-          "sortBy": "Name",
+          "sortBy": "Mean",
           "sortDesc": true
         },
         "tooltip": {
@@ -962,6 +992,7 @@
             }
           },
           "mappings": [],
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -973,7 +1004,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -981,19 +1013,24 @@
         "h": 11,
         "w": 12,
         "x": 0,
-        "y": 43
+        "y": 40
       },
       "id": 19,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
         },
         "tooltip": {
           "hideZeros": false,
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -1065,7 +1102,8 @@
                 "color": "green"
               }
             ]
-          }
+          },
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -1073,19 +1111,24 @@
         "h": 11,
         "w": 12,
         "x": 12,
-        "y": 43
+        "y": 40
       },
       "id": 4,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": true,
+          "sortBy": "Mean",
+          "sortDesc": true
         },
         "tooltip": {
           "hideZeros": false,
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
         }
       },
@@ -1150,6 +1193,7 @@
             }
           },
           "mappings": [],
+          "noValue": "0",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1161,7 +1205,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -1169,16 +1214,19 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 54
+        "y": 51
       },
       "id": 22,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "mean",
+            "max"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true,
-          "sortBy": "Total",
+          "sortBy": "Mean",
           "sortDesc": true
         },
         "tooltip": {
@@ -1210,7 +1258,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 66
+        "y": 63
       },
       "id": 14,
       "panels": [],
@@ -1281,7 +1329,7 @@
         "h": 12,
         "w": 12,
         "x": 0,
-        "y": 67
+        "y": 64
       },
       "id": 20,
       "options": {
@@ -1383,7 +1431,7 @@
         "h": 12,
         "w": 12,
         "x": 12,
-        "y": 67
+        "y": 64
       },
       "id": 6,
       "options": {
@@ -1485,7 +1533,7 @@
         "h": 12,
         "w": 12,
         "x": 0,
-        "y": 79
+        "y": 76
       },
       "id": 26,
       "options": {
@@ -1587,7 +1635,7 @@
         "h": 12,
         "w": 12,
         "x": 12,
-        "y": 79
+        "y": 76
       },
       "id": 8,
       "options": {
