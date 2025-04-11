@@ -29,6 +29,7 @@ extraObjects:
     metadata:
       name: flagsmith
     spec:
+      jobLabel: app.kubernetes.io/name
       selector:
         matchExpressions:
           - { key: app.kubernetes.io/component, operator: In, values: [ api, task-processor ] }

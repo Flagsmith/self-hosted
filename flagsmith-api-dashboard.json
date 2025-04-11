@@ -23,20 +23,54 @@
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
-  "id": 23,
+  "graphTooltip": 1,
+  "id": 1,
   "links": [],
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
           "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
@@ -63,157 +97,61 @@
                 "id": "color"
               }
             ]
+          },
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "flagsmith-task-processor",
+                  "flagsmith",
+                  "{__name__=\"flagsmith_build_info\", ci_commit_sha=\"81b285d333c1fb6f6e2e9912c86b00dc209ba5bb\", container=\"flagsmith-api\", endpoint=\"http\", instance=\"192.168.194.87:8000\", job=\"flagsmith\", namespace=\"flagsmith\", pod=\"flagsmith-api-7b75b68887-jhwqf\", service=\"flagsmith-api\", version=\"2.170.0\"}"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": []
           }
         ]
       },
       "gridPos": {
-        "h": 6,
-        "w": 12,
+        "h": 9,
+        "w": 7,
         "x": 0,
         "y": 0
       },
       "id": 17,
       "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
+        "legend": {
           "calcs": [],
-          "fields": "/.*/",
-          "values": false
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
-        "showPercentChange": false,
-        "text": {
-          "valueSize": 18
-        },
-        "textMode": "auto",
-        "wideLayout": true
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
       },
       "pluginVersion": "11.6.0",
       "targets": [
         {
           "editorMode": "code",
           "exemplar": false,
-          "expr": "flagsmith_build_info{job=\"$job\"}\n",
-          "format": "table",
+          "expr": "count by (service, version) (flagsmith_build_info)  ",
+          "format": "time_series",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{ service }} {{ version }}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Flagsmith API",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "instance",
-                "version",
-                "job"
-              ]
-            }
-          }
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Value"
-            },
-            "properties": [
-              {
-                "id": "color"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 0
-      },
-      "id": 28,
-      "options": {
-        "colorMode": "none",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [],
-          "fields": "/.*/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "valueSize": 18
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "flagsmith_build_info{job=\"$task_processor_job\"}\n",
-          "format": "table",
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Task processor",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "instance",
-                "version",
-                "job"
-              ]
-            }
-          }
-        }
-      ],
-      "type": "stat"
+      "title": "Pods per service/version",
+      "type": "timeseries"
     },
     {
       "collapsed": false,
@@ -221,7 +159,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 9
       },
       "id": 15,
       "panels": [],
@@ -231,7 +169,233 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${datasource_prometheus}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 0,
+        "y": 10
+      },
+      "id": 30,
+      "options": {
+        "legend": {
+          "calcs": [
+            "sum"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Total",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource_prometheus}"
+          },
+          "editorMode": "code",
+          "expr": "sum(\n  increase(\n    flagsmith_task_processor_enqueued_tasks_total[$__rate_interval]\n  )\n) by (task_identifier)",
+          "format": "time_series",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Enqueued tasks",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "tasks\\.(.*)",
+            "renamePattern": "$1"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource_prometheus}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 7,
+        "x": 7,
+        "y": 10
+      },
+      "id": 31,
+      "options": {
+        "legend": {
+          "calcs": [
+            "sum"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Total",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource_prometheus}"
+          },
+          "editorMode": "code",
+          "expr": "sum(\n  increase(\n    flagsmith_task_processor_finished_tasks_total{result=\"success\"}[$__rate_interval]\n  )\n) by (task_identifier)",
+          "format": "time_series",
+          "legendFormat": "{{task_identifier}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Completed tasks",
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "tasks\\.(.*)",
+            "renamePattern": "$1"
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource_prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -292,9 +456,9 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 24,
-        "x": 0,
-        "y": 7
+        "w": 7,
+        "x": 14,
+        "y": 10
       },
       "id": 24,
       "options": {
@@ -303,7 +467,7 @@
             "sum"
           ],
           "displayMode": "table",
-          "placement": "right",
+          "placement": "bottom",
           "showLegend": true,
           "sortBy": "Total",
           "sortDesc": true
@@ -317,8 +481,12 @@
       "pluginVersion": "11.6.0",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource_prometheus}"
+          },
           "editorMode": "code",
-          "expr": "sum(\n  increase(\n    flagsmith_task_processor_finished_tasks_total{job=\"$task_processor_job\", result!=\"success\"}[$__rate_interval]\n  )\n) by (task_identifier)",
+          "expr": "sum(\n  increase(\n    flagsmith_task_processor_finished_tasks_total{result!=\"success\"}[$__rate_interval]\n  )\n) by (task_identifier)\n\nor vector(0)",
           "format": "time_series",
           "legendFormat": "__auto",
           "range": true,
@@ -340,225 +508,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 24,
-        "x": 0,
-        "y": 16
-      },
-      "id": 31,
-      "options": {
-        "legend": {
-          "calcs": [
-            "sum"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Total",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "editorMode": "code",
-          "expr": "sum(\n  increase(\n    flagsmith_task_processor_finished_tasks_total{job=\"$task_processor_job\", result=\"success\"}[$__rate_interval]\n  )\n) by (task_identifier)",
-          "format": "time_series",
-          "legendFormat": "{{task_identifier}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Completed tasks",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "tasks\\.(.*)",
-            "renamePattern": "$1"
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "normal"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 24,
-        "x": 0,
-        "y": 25
-      },
-      "id": 30,
-      "options": {
-        "legend": {
-          "calcs": [
-            "sum"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true,
-          "sortBy": "Total",
-          "sortDesc": true
-        },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "editorMode": "code",
-          "expr": "sum(\n  increase(\n    flagsmith_task_processor_enqueued_tasks_total{job=\"$task_processor_job\"}[$__rate_interval]\n  )\n) by (task_identifier)",
-          "format": "time_series",
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Enqueued tasks",
-      "transformations": [
-        {
-          "id": "renameByRegex",
-          "options": {
-            "regex": "tasks\\.(.*)",
-            "renamePattern": "$1"
-          }
-        }
-      ],
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${datasource_prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -619,7 +569,7 @@
         "h": 12,
         "w": 12,
         "x": 0,
-        "y": 34
+        "y": 19
       },
       "id": 27,
       "options": {
@@ -645,10 +595,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource_prometheus}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(flagsmith_task_processor_task_duration_seconds_bucket{job=~\"$task_processor_job\"}[$__rate_interval])) by (le, task_identifier, result))",
+          "expr": "histogram_quantile(0.95, sum(rate(flagsmith_task_processor_task_duration_seconds_bucket[$__rate_interval])) by (le, task_identifier, result))",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -660,7 +610,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${datasource_prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -721,7 +671,7 @@
         "h": 12,
         "w": 12,
         "x": 12,
-        "y": 34
+        "y": 19
       },
       "id": 21,
       "options": {
@@ -747,7 +697,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource_prometheus}"
           },
           "editorMode": "code",
           "expr": "histogram_quantile(0.50, sum(rate(flagsmith_task_processor_task_duration_seconds_bucket{job=~\"$task_processor_job\"}[$__rate_interval])) by (le, task_identifier, result))",
@@ -765,7 +715,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 46
+        "y": 31
       },
       "id": 12,
       "panels": [],
@@ -775,7 +725,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${datasource_prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -832,7 +782,7 @@
         "h": 11,
         "w": 12,
         "x": 0,
-        "y": 47
+        "y": 32
       },
       "id": 18,
       "options": {
@@ -858,10 +808,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource_prometheus}"
           },
           "editorMode": "code",
-          "expr": "sum by(method, route) (rate(flagsmith_http_server_requests_total{method=\"GET\",route!=\"\",job=~\"$job\"}[$__rate_interval]))",
+          "expr": "sum by(method, route) (rate(flagsmith_http_server_requests_total{method=\"GET\",route!=\"\"}[$__rate_interval]))",
           "legendFormat": "{{method}} {{route}}",
           "range": true,
           "refId": "A"
@@ -873,7 +823,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${datasource_prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -930,7 +880,7 @@
         "h": 11,
         "w": 12,
         "x": 12,
-        "y": 47
+        "y": 32
       },
       "id": 2,
       "options": {
@@ -956,10 +906,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource_prometheus}"
           },
           "editorMode": "code",
-          "expr": "sum by(method, route) (rate(flagsmith_http_server_requests_total{method!=\"GET\",route!=\"\",job=~\"$job\"}[$__rate_interval]))",
+          "expr": "sum by(method, route) (rate(flagsmith_http_server_requests_total{method!=\"GET\",route!=\"\"}[$__rate_interval]))",
           "legendFormat": "{{method}} {{route}}",
           "range": true,
           "refId": "A"
@@ -971,7 +921,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${datasource_prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1031,7 +981,7 @@
         "h": 11,
         "w": 12,
         "x": 0,
-        "y": 58
+        "y": 43
       },
       "id": 19,
       "options": {
@@ -1052,10 +1002,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource_prometheus}"
           },
           "editorMode": "code",
-          "expr": "sum by(method, response_status) (rate(flagsmith_http_server_requests_total{method=~\"GET|HEAD\",route!=\"\",job=~\"$job\"}[$__rate_interval]))",
+          "expr": "sum by(method, response_status) (rate(flagsmith_http_server_requests_total{method=~\"GET|HEAD\",route!=\"\"}[$__rate_interval]))",
           "legendFormat": "{{method}} {{response_status}}",
           "range": true,
           "refId": "A"
@@ -1067,7 +1017,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${datasource_prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1123,7 +1073,7 @@
         "h": 11,
         "w": 12,
         "x": 12,
-        "y": 58
+        "y": 43
       },
       "id": 4,
       "options": {
@@ -1144,10 +1094,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource_prometheus}"
           },
           "editorMode": "code",
-          "expr": "sum by(method, response_status) (rate(flagsmith_http_server_requests_total{method!=\"GET\",route!=\"\",job=~\"$job\"}[$__rate_interval]))",
+          "expr": "sum by(method, response_status) (rate(flagsmith_http_server_requests_total{method!=\"GET\",route!=\"\"}[$__rate_interval]))",
           "legendFormat": "{{method}}  {{response_status}} ",
           "range": true,
           "refId": "A"
@@ -1159,7 +1109,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${datasource_prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1219,7 +1169,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 69
+        "y": 54
       },
       "id": 22,
       "options": {
@@ -1242,10 +1192,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource_prometheus}"
           },
           "editorMode": "code",
-          "expr": "sum(rate(flagsmith_http_server_requests_total{route!=\"\",job=~\"$job\"}[$__rate_interval])) by(method, response_status, route)",
+          "expr": "sum(rate(flagsmith_http_server_requests_total{route!=\"\"}[$__rate_interval])) by(method, response_status, route)",
           "legendFormat": "{{method}}  {{response_status}} {{route}}",
           "range": true,
           "refId": "A"
@@ -1260,7 +1210,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 81
+        "y": 66
       },
       "id": 14,
       "panels": [],
@@ -1270,7 +1220,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${datasource_prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1331,7 +1281,7 @@
         "h": 12,
         "w": 12,
         "x": 0,
-        "y": 82
+        "y": 67
       },
       "id": 20,
       "options": {
@@ -1357,10 +1307,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource_prometheus}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(flagsmith_http_server_request_duration_seconds_bucket{route!=\"\",method=\"GET\",job=~\"$job\"}[$__rate_interval])) by (le, route, method))",
+          "expr": "histogram_quantile(0.95, sum(rate(flagsmith_http_server_request_duration_seconds_bucket{route!=\"\",method=\"GET\"}[$__rate_interval])) by (le, route, method))",
           "legendFormat": "{{method}} {{route}}",
           "range": true,
           "refId": "A"
@@ -1372,7 +1322,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "${datasource_prometheus}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1433,7 +1383,7 @@
         "h": 12,
         "w": 12,
         "x": 12,
-        "y": 82
+        "y": 67
       },
       "id": 6,
       "options": {
@@ -1459,10 +1409,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource_prometheus}"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(flagsmith_http_server_request_duration_seconds_bucket{route!=\"\",method!=\"GET\",job=~\"$job\"}[$__rate_interval])) by (le, route, method))",
+          "expr": "histogram_quantile(0.95, sum(rate(flagsmith_http_server_request_duration_seconds_bucket{route!=\"\",method!=\"GET\"}[$__rate_interval])) by (le, route, method))",
           "legendFormat": "{{method}} {{route}}",
           "range": true,
           "refId": "A"
@@ -1474,7 +1424,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1535,7 +1485,7 @@
         "h": 12,
         "w": 12,
         "x": 0,
-        "y": 94
+        "y": 79
       },
       "id": 26,
       "options": {
@@ -1564,19 +1514,19 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum(rate(flagsmith_http_server_request_duration_seconds_bucket{route!=\"\",method=\"GET\",job=~\"$job\"}[$__rate_interval])) by (le, route, method))",
-          "legendFormat": "{{method}} {{route}}",
+          "expr": "histogram_quantile(0.95, sum(rate(flagsmith_http_server_request_duration_seconds_bucket{route!=\"\",method=\"GET\"}[$__rate_interval])) by (le, response_status))",
+          "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "p95 read duration by route",
+      "title": "p95 read duration by status",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
+        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1637,7 +1587,7 @@
         "h": 12,
         "w": 12,
         "x": 12,
-        "y": 94
+        "y": 79
       },
       "id": 8,
       "options": {
@@ -1666,13 +1616,13 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile(0.50, sum(rate(flagsmith_http_server_request_duration_seconds_bucket{route!=\"\",method!=\"GET\",job=~\"$job\"}[$__rate_interval])) by (le, method, route))",
-          "legendFormat": "{{method}} {{route}}",
+          "expr": "histogram_quantile(0.50, sum(rate(flagsmith_http_server_request_duration_seconds_bucket{route!=\"\",method!=\"GET\"}[$__rate_interval])) by (le, response_status))",
+          "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "p50 write duration by route",
+      "title": "p50 write duration by status",
       "type": "timeseries"
     }
   ],
@@ -1684,39 +1634,15 @@
     "list": [
       {
         "current": {
-          "text": "flagsmith-api",
-          "value": "flagsmith-api"
+          "text": "Prometheus",
+          "value": "prometheus"
         },
-        "definition": "label_values(job)",
-        "description": "",
-        "name": "job",
+        "name": "datasource_prometheus",
         "options": [],
-        "query": {
-          "qryType": 1,
-          "query": "label_values(job)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
+        "query": "prometheus",
         "refresh": 1,
         "regex": "",
-        "type": "query"
-      },
-      {
-        "current": {
-          "text": "flagsmith-api",
-          "value": "flagsmith-api"
-        },
-        "definition": "label_values(job)",
-        "description": "",
-        "name": "task_processor_job",
-        "options": [],
-        "query": {
-          "qryType": 1,
-          "query": "label_values(job)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "type": "query"
+        "type": "datasource"
       }
     ]
   },
@@ -1728,5 +1654,5 @@
   "timezone": "",
   "title": "Flagsmith API and task processor",
   "uid": "flagsmith-http",
-  "version": 119
+  "version": 2
 }
