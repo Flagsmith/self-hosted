@@ -5,7 +5,7 @@ holos: Helm.BuildPlan
 Helm: #Helm & {
 	Chart: {
 		name:    "flagsmith"
-		version: "0.73.0"
+		version: "0.73.1"
 		repository: {
 			name: "flagsmith"
 			url:  "https://flagsmith.github.io/flagsmith-charts/"

@@ -1,10 +1,11 @@
-# Deploying Flagsmith with Holos
+# Define a Flagsmith platform with Holos
 
-This is a definition of a Flagsmith deployment written using [Holos](https://holos.run/) as a learning exercise.
+This is a definition of a Flagsmith platform written using [Holos](https://holos.run/) as a learning exercise. "Platform" in its current
+state means a deployment of Flagsmith and its associated services into one Kubernetes cluster.
 
 The files inside [`deploy`](/deploy) are the resulting Kubernetes resources generated when
 running `holos render platform`. This is effectively a [rendered manifest](https://akuity.io/blog/the-rendered-manifests-pattern)
-of a Flagsmith deployment that can be directly applied to a cluster, either manually or
+of a Flagsmith platform that can be directly applied to a cluster, either manually or
 with a GitOps pipeline.
 
 The rendered Kubernetes resource files are meant to be committed to this repository. They

@@ -20,9 +20,9 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
-  name: flagsmith-django-secret-init
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
+  name: flagsmith-django-secret-key
   namespace: default
 ---
 apiVersion: v1
@@ -35,9 +35,9 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
-  name: flagsmith-django-secret-key
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
+  name: flagsmith-sse-authentication-token
   namespace: default
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -50,8 +50,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-django-secret-key
   namespace: default
 rules:
@@ -73,9 +73,9 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
-  name: flagsmith-sse-secret-init
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
+  name: flagsmith-sse-authentication-token
   namespace: default
 rules:
 - apiGroups:
@@ -96,8 +96,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-django-secret-key
   namespace: default
 roleRef:
@@ -119,17 +119,17 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
-  name: flagsmith-sse-secret-init
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
+  name: flagsmith-sse-authentication-token
   namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: flagsmith-sse-secret-init
+  name: flagsmith-sse-authentication-token
 subjects:
 - kind: ServiceAccount
-  name: flagsmith-sse-secret-init
+  name: flagsmith-sse-authentication-token
   namespace: default
 ---
 apiVersion: v1
@@ -156,8 +156,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith
 type: Opaque
 ---
@@ -218,8 +218,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-api
 spec:
   ports:
@@ -241,8 +241,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-frontend
 spec:
   ports:
@@ -264,8 +264,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-sse
 spec:
   ports:
@@ -287,8 +287,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-task-processor
 spec:
   ports:
@@ -310,8 +310,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith
 spec:
   replicas: 1
@@ -335,7 +335,7 @@ spec:
           value: http://flagsmith-api.default:8000
         - name: FLAGSMITH_PROXY_API_URL
           value: http://flagsmith-api.default:8000
-        image: flagsmith.docker.scarf.sh/flagsmith/flagsmith-frontend:2.170.0
+        image: flagsmith.docker.scarf.sh/flagsmith/flagsmith-frontend:2.171.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 20
@@ -373,8 +373,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-api
 spec:
   replicas: 1
@@ -386,7 +386,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secrets-api: 3fe9f545b0c38d705f35cbce2aea73dc4253c7237d8cc7d09847057e6b99848e
+        checksum/secrets-api: 001ffd2d7f9160ca9d64621ddfe7685dbd11f05e471e5f01f4e39402e48269f9
       labels:
         app.kubernetes.io/component: api
         app.kubernetes.io/instance: flagsmith
@@ -503,8 +503,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-sse
 spec:
   replicas: 1
@@ -569,8 +569,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-task-processor
 spec:
   replicas: 1
@@ -582,7 +582,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secrets-api: 3fe9f545b0c38d705f35cbce2aea73dc4253c7237d8cc7d09847057e6b99848e
+        checksum/secrets-api: 001ffd2d7f9160ca9d64621ddfe7685dbd11f05e471e5f01f4e39402e48269f9
       labels:
         app.kubernetes.io/component: task-processor
         app.kubernetes.io/instance: flagsmith
@@ -809,8 +809,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-django-secret-key
   namespace: default
 spec:
@@ -821,8 +821,8 @@ spec:
         app.kubernetes.io/instance: flagsmith
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: flagsmith
-        app.kubernetes.io/version: 2.170.0
-        helm.sh/chart: flagsmith-0.73.0
+        app.kubernetes.io/version: 2.171.0
+        helm.sh/chart: flagsmith-0.73.1
       name: flagsmith-django-secret-key
     spec:
       containers:
@@ -850,6 +850,7 @@ spec:
         name: secret-creator
       restartPolicy: OnFailure
       serviceAccountName: flagsmith-django-secret-key
+  ttlSecondsAfterFinished: 60
 ---
 apiVersion: batch/v1
 kind: Job
@@ -862,8 +863,8 @@ metadata:
     app.kubernetes.io/instance: flagsmith
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: flagsmith
-    app.kubernetes.io/version: 2.170.0
-    helm.sh/chart: flagsmith-0.73.0
+    app.kubernetes.io/version: 2.171.0
+    helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-sse-authentication-token
   namespace: default
 spec:
@@ -874,8 +875,8 @@ spec:
         app.kubernetes.io/instance: flagsmith
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: flagsmith
-        app.kubernetes.io/version: 2.170.0
-        helm.sh/chart: flagsmith-0.73.0
+        app.kubernetes.io/version: 2.171.0
+        helm.sh/chart: flagsmith-0.73.1
       name: flagsmith-sse-authentication-token
     spec:
       containers:
@@ -902,4 +903,5 @@ spec:
         imagePullPolicy: IfNotPresent
         name: secret-creator
       restartPolicy: OnFailure
-      serviceAccountName: flagsmith-sse-secret-init
+      serviceAccountName: flagsmith-sse-authentication-token
+  ttlSecondsAfterFinished: 60
