@@ -1,0 +1,905 @@
+apiVersion: v1
+automountServiceAccountToken: true
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: dev-postgresql
+    helm.sh/chart: devPostgresql-12.5.8
+  name: flagsmith-dev-postgresql
+  namespace: default
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation
+  labels:
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-django-secret-init
+  namespace: default
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation
+  labels:
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-django-secret-key
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation
+  labels:
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-django-secret-key
+  namespace: default
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation
+  labels:
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-sse-secret-init
+  namespace: default
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation
+  labels:
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-django-secret-key
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: flagsmith-django-secret-key
+subjects:
+- kind: ServiceAccount
+  name: flagsmith-django-secret-key
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation
+  labels:
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-sse-secret-init
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: flagsmith-sse-secret-init
+subjects:
+- kind: ServiceAccount
+  name: flagsmith-sse-secret-init
+  namespace: default
+---
+apiVersion: v1
+data:
+  postgres-password: ZmxhZ3NtaXRo
+kind: Secret
+metadata:
+  labels:
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: dev-postgresql
+    helm.sh/chart: devPostgresql-12.5.8
+  name: flagsmith-dev-postgresql
+  namespace: default
+type: Opaque
+---
+apiVersion: v1
+data:
+  DATABASE_URL: cG9zdGdyZXM6Ly9wb3N0Z3JlczpmbGFnc21pdGhAZmxhZ3NtaXRoLWRldi1wb3N0Z3Jlc3FsLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWw6NTQzMi9mbGFnc21pdGg=
+kind: Secret
+metadata:
+  labels:
+    app.kubernetes.io/component: api
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith
+type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: primary
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: dev-postgresql
+    helm.sh/chart: devPostgresql-12.5.8
+  name: flagsmith-dev-postgresql
+  namespace: default
+spec:
+  ports:
+  - name: tcp-postgresql
+    nodePort: null
+    port: 5432
+    targetPort: tcp-postgresql
+  selector:
+    app.kubernetes.io/component: primary
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/name: dev-postgresql
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: primary
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: dev-postgresql
+    helm.sh/chart: devPostgresql-12.5.8
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: flagsmith-dev-postgresql-hl
+  namespace: default
+spec:
+  clusterIP: None
+  ports:
+  - name: tcp-postgresql
+    port: 5432
+    targetPort: tcp-postgresql
+  publishNotReadyAddresses: true
+  selector:
+    app.kubernetes.io/component: primary
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/name: dev-postgresql
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: api
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-api
+spec:
+  ports:
+  - name: http
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app.kubernetes.io/component: api
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/name: flagsmith
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-frontend
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/name: flagsmith
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: sse
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-sse
+spec:
+  ports:
+  - name: http
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app.kubernetes.io/component: sse
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/name: flagsmith
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: task-processor
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-task-processor
+spec:
+  ports:
+  - name: http
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app.kubernetes.io/component: task-processor
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/name: flagsmith
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: frontend
+      app.kubernetes.io/instance: flagsmith
+      app.kubernetes.io/name: flagsmith
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: frontend
+        app.kubernetes.io/instance: flagsmith
+        app.kubernetes.io/name: flagsmith
+    spec:
+      containers:
+      - env:
+        - name: ASSET_URL
+          value: /
+        - name: PROXY_API_URL
+          value: http://flagsmith-api.default:8000
+        - name: FLAGSMITH_PROXY_API_URL
+          value: http://flagsmith-api.default:8000
+        image: flagsmith.docker.scarf.sh/flagsmith/flagsmith-frontend:2.170.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 20
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+        name: flagsmith-frontend
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          failureThreshold: 20
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+        resources: {}
+        volumeMounts: []
+      securityContext: {}
+      volumes: null
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: api
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: api
+      app.kubernetes.io/instance: flagsmith
+      app.kubernetes.io/name: flagsmith
+  template:
+    metadata:
+      annotations:
+        checksum/secrets-api: 3fe9f545b0c38d705f35cbce2aea73dc4253c7237d8cc7d09847057e6b99848e
+      labels:
+        app.kubernetes.io/component: api
+        app.kubernetes.io/instance: flagsmith
+        app.kubernetes.io/name: flagsmith
+    spec:
+      containers:
+      - args:
+        - serve
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_URL
+              name: flagsmith
+        - name: DJANGO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: django-secret-key
+              name: flagsmith-django-secret-key
+        - name: DISABLE_ANALYTICS_FEATURES
+          value: "true"
+        - name: DJANGO_ALLOWED_HOSTS
+          value: '*'
+        - name: ENABLE_ADMIN_ACCESS_USER_PASS
+          value: "true"
+        - name: PROMETHEUS_ENABLED
+          value: "true"
+        - name: TASK_RUN_METHOD
+          value: TASK_PROCESSOR
+        - name: USE_X_FORWARDED_HOST
+          value: "true"
+        - name: LOG_FORMAT
+          value: generic
+        - name: SSE_AUTHENTICATION_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: sse-authentication-token
+              name: flagsmith-sse-authentication-token
+        - name: SSE_SERVER_BASE_URL
+          value: http://flagsmith-sse.default:8000
+        image: quay.io/flagsmithofficial/flagsmith-enterprise-api:2.171.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /health/liveness
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        name: flagsmith-api
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /health/readiness
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        resources: {}
+        volumeMounts: []
+      initContainers:
+      - args:
+        - migrate
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_URL
+              name: flagsmith
+        - name: DJANGO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: django-secret-key
+              name: flagsmith-django-secret-key
+        - name: DISABLE_ANALYTICS_FEATURES
+          value: "true"
+        - name: DJANGO_ALLOWED_HOSTS
+          value: '*'
+        - name: ENABLE_ADMIN_ACCESS_USER_PASS
+          value: "true"
+        - name: PROMETHEUS_ENABLED
+          value: "true"
+        - name: TASK_RUN_METHOD
+          value: TASK_PROCESSOR
+        - name: USE_X_FORWARDED_HOST
+          value: "true"
+        - name: LOG_FORMAT
+          value: generic
+        - name: SSE_AUTHENTICATION_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: sse-authentication-token
+              name: flagsmith-sse-authentication-token
+        - name: SSE_SERVER_BASE_URL
+          value: http://flagsmith-sse.default:8000
+        image: quay.io/flagsmithofficial/flagsmith-enterprise-api:2.171.0
+        imagePullPolicy: IfNotPresent
+        name: migrate-db
+      securityContext: {}
+      volumes: null
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: sse
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-sse
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: sse
+      app.kubernetes.io/instance: flagsmith
+      app.kubernetes.io/name: flagsmith
+  template:
+    metadata:
+      annotations: null
+      labels:
+        app.kubernetes.io/component: sse
+        app.kubernetes.io/instance: flagsmith
+        app.kubernetes.io/name: flagsmith
+    spec:
+      containers:
+      - args:
+        - serve
+        env:
+        - name: SSE_AUTHENTICATION_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: sse-authentication-token
+              name: flagsmith-sse-authentication-token
+        image: flagsmith/sse:3.6.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /health/liveness
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        name: flagsmith-sse
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /health/readiness
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        resources: {}
+        volumeMounts: []
+      initContainers: null
+      securityContext: {}
+      volumes: null
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/component: task-processor
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-task-processor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: task-processor
+      app.kubernetes.io/instance: flagsmith
+      app.kubernetes.io/name: flagsmith
+  template:
+    metadata:
+      annotations:
+        checksum/secrets-api: 3fe9f545b0c38d705f35cbce2aea73dc4253c7237d8cc7d09847057e6b99848e
+      labels:
+        app.kubernetes.io/component: task-processor
+        app.kubernetes.io/instance: flagsmith
+        app.kubernetes.io/name: flagsmith
+    spec:
+      containers:
+      - args:
+        - run-task-processor
+        command:
+        - ./scripts/run-docker.sh
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_URL
+              name: flagsmith
+        - name: DJANGO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: django-secret-key
+              name: flagsmith-django-secret-key
+        - name: DISABLE_ANALYTICS_FEATURES
+          value: "true"
+        - name: DJANGO_ALLOWED_HOSTS
+          value: '*'
+        - name: ENABLE_ADMIN_ACCESS_USER_PASS
+          value: "true"
+        - name: PROMETHEUS_ENABLED
+          value: "true"
+        - name: TASK_RUN_METHOD
+          value: TASK_PROCESSOR
+        - name: USE_X_FORWARDED_HOST
+          value: "true"
+        - name: LOG_FORMAT
+          value: generic
+        - name: SSE_AUTHENTICATION_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: sse-authentication-token
+              name: flagsmith-sse-authentication-token
+        - name: SSE_SERVER_BASE_URL
+          value: http://flagsmith-sse.default:8000
+        image: quay.io/flagsmithofficial/flagsmith-enterprise-api:2.171.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /health/liveness
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 30
+        name: flagsmith-task-processor
+        ports:
+        - containerPort: 8000
+        readinessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /health/readiness
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 30
+        resources: {}
+        volumeMounts: []
+      securityContext: {}
+      volumes: null
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app.kubernetes.io/component: primary
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: dev-postgresql
+    helm.sh/chart: devPostgresql-12.5.8
+  name: flagsmith-dev-postgresql
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: primary
+      app.kubernetes.io/instance: flagsmith
+      app.kubernetes.io/name: dev-postgresql
+  serviceName: flagsmith-dev-postgresql-hl
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: primary
+        app.kubernetes.io/instance: flagsmith
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: dev-postgresql
+        helm.sh/chart: devPostgresql-12.5.8
+      name: flagsmith-dev-postgresql
+    spec:
+      affinity:
+        nodeAffinity: null
+        podAffinity: null
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/component: primary
+                  app.kubernetes.io/instance: flagsmith
+                  app.kubernetes.io/name: dev-postgresql
+              topologyKey: kubernetes.io/hostname
+            weight: 1
+      containers:
+      - env:
+        - name: BITNAMI_DEBUG
+          value: "false"
+        - name: POSTGRESQL_PORT_NUMBER
+          value: "5432"
+        - name: POSTGRESQL_VOLUME_DIR
+          value: /bitnami/postgresql
+        - name: PGDATA
+          value: /bitnami/postgresql/data
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: postgres-password
+              name: flagsmith-dev-postgresql
+        - name: POSTGRES_DB
+          value: flagsmith
+        - name: POSTGRESQL_ENABLE_LDAP
+          value: "no"
+        - name: POSTGRESQL_ENABLE_TLS
+          value: "no"
+        - name: POSTGRESQL_LOG_HOSTNAME
+          value: "false"
+        - name: POSTGRESQL_LOG_CONNECTIONS
+          value: "false"
+        - name: POSTGRESQL_LOG_DISCONNECTIONS
+          value: "false"
+        - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
+          value: "off"
+        - name: POSTGRESQL_CLIENT_MIN_MESSAGES
+          value: error
+        - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
+          value: pgaudit
+        image: docker.io/bitnami/postgresql:15.3.0-debian-11-r7
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - exec pg_isready -U "postgres" -d "dbname=flagsmith" -h 127.0.0.1 -p
+              5432
+          failureThreshold: 6
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: postgresql
+        ports:
+        - containerPort: 5432
+          name: tcp-postgresql
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - -e
+            - |
+              exec pg_isready -U "postgres" -d "dbname=flagsmith" -h 127.0.0.1 -p 5432
+              [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+          failureThreshold: 6
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources:
+          limits: {}
+          requests:
+            cpu: 250m
+            memory: 256Mi
+        securityContext:
+          runAsUser: 1001
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: dshm
+        - mountPath: /bitnami/postgresql
+          name: data
+      hostIPC: false
+      hostNetwork: false
+      securityContext:
+        fsGroup: 1001
+      serviceAccountName: flagsmith-dev-postgresql
+      volumes:
+      - emptyDir:
+          medium: Memory
+        name: dshm
+  updateStrategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  volumeClaimTemplates:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 8Gi
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+  labels:
+    app.kubernetes.io/component: django-secret-init
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-django-secret-key
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: django-secret-init
+        app.kubernetes.io/instance: flagsmith
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: flagsmith
+        app.kubernetes.io/version: 2.170.0
+        helm.sh/chart: flagsmith-0.73.0
+      name: flagsmith-django-secret-key
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - |
+          SECRET_NAME=flagsmith-django-secret-key
+          NAMESPACE=default
+          echo "Checking for secret $SECRET_NAME in namespace $NAMESPACE"
+          # Attempt to get the secret; if it fails (exit code != 0), create it.
+          if ! kubectl get secret "$SECRET_NAME" -n "$NAMESPACE" -o name; then
+            echo "Secret $SECRET_NAME not found. Creating..."
+            # Generate a 64-character hex key (32 bytes)
+            GENERATED_KEY=$(openssl rand -hex 32)
+            kubectl create secret generic "$SECRET_NAME" -n "$NAMESPACE" \
+              --from-literal=django-secret-key="$GENERATED_KEY" \
+              --dry-run=client -o yaml | kubectl apply -f -
+            echo "Secret $SECRET_NAME created."
+          else
+            echo "Secret $SECRET_NAME already exists. No action taken."
+          fi
+        image: bitnami/kubectl:latest
+        imagePullPolicy: IfNotPresent
+        name: secret-creator
+      restartPolicy: OnFailure
+      serviceAccountName: flagsmith-django-secret-key
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+  labels:
+    app.kubernetes.io/component: sse-secret-init
+    app.kubernetes.io/instance: flagsmith
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: flagsmith
+    app.kubernetes.io/version: 2.170.0
+    helm.sh/chart: flagsmith-0.73.0
+  name: flagsmith-sse-authentication-token
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: sse-secret-init
+        app.kubernetes.io/instance: flagsmith
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: flagsmith
+        app.kubernetes.io/version: 2.170.0
+        helm.sh/chart: flagsmith-0.73.0
+      name: flagsmith-sse-authentication-token
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - |
+          SECRET_NAME=flagsmith-sse-authentication-token
+          NAMESPACE=default
+          echo "Checking for secret $SECRET_NAME in namespace $NAMESPACE"
+          # Attempt to get the secret; if it fails (exit code != 0), create it.
+          if ! kubectl get secret "$SECRET_NAME" -n "$NAMESPACE" -o name; then
+            echo "Secret $SECRET_NAME not found. Creating..."
+            # Generate a 64-character hex key (32 bytes)
+            GENERATED_KEY=$(openssl rand -hex 32)
+            kubectl create secret generic "$SECRET_NAME" -n "$NAMESPACE" \
+              --from-literal=sse-authentication-token="$GENERATED_KEY" \
+              --dry-run=client -o yaml | kubectl apply -f -
+            echo "Secret $SECRET_NAME created."
+          else
+            echo "Secret $SECRET_NAME already exists. No action taken."
+          fi
+        image: bitnami/kubectl:latest
+        imagePullPolicy: IfNotPresent
+        name: secret-creator
+      restartPolicy: OnFailure
+      serviceAccountName: flagsmith-sse-secret-init

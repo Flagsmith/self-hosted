@@ -1,0 +1,18 @@
+#! /bin/bash
+
+# cd to the repository root
+TOPLEVEL="$(cd $(dirname "$0") && git rev-parse --show-toplevel)"
+cd "$TOPLEVEL"
+
+set -xeuo pipefail
+
+apply() {
+  kubectl apply --force-conflicts --server-side=true -f "deploy/components/${1}/${1}.gen.yaml"
+}
+
+applyProject() {
+  kubectl apply --force-conflicts --server-side=true -f "deploy/projects/${1}/components/${2}/${2}.gen.yaml"
+}
+
+apply namespaces
+apply flagsmith
