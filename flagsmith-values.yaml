@@ -1,16 +1,18 @@
 # Use an existing secret that has your Docker registry credentials:
 #
 #global:
-# image:
-#   imagePullSecrets:
-#     - name: flagsmithofficial-example-pull-secret
+#  image:
+#    imagePullSecrets:
+#      - name: flagsmithofficial-example-pull-secret
+
+serviceMonitor:
+  enabled: true
 
 api:
   image:
     repository: quay.io/flagsmithofficial/flagsmith-enterprise-api
   extraEnv:
     USE_SECURE_COOKIES: false
-    PROMETHEUS_ENABLED: true
     ACCESS_LOG_LOCATION: '-'
 
 taskProcessor:
@@ -18,7 +20,6 @@ taskProcessor:
     repository: quay.io/flagsmithofficial/flagsmith-enterprise-api
   enabled: true
   extraEnv:
-    PROMETHEUS_ENABLED: true
     ACCESS_LOG_LOCATION: '-'
 
 frontend:
@@ -33,21 +34,6 @@ postgresql:
     enabled: true
     serviceMonitor:
       enabled: true
-
-extraObjects:
-  - apiVersion: monitoring.coreos.com/v1
-    kind: ServiceMonitor
-    metadata:
-      name: flagsmith
-    spec:
-      jobLabel: app.kubernetes.io/name
-      selector:
-        matchExpressions:
-          - { key: app.kubernetes.io/component, operator: In, values: [ api, task-processor ] }
-      endpoints:
-        - port: http
-          interval: 15s
-          path: /metrics
 
 influxdb2:
   enabled: false

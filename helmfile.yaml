@@ -7,7 +7,7 @@ repositories:
 releases:
   - name: flagsmith
     namespace: flagsmith
-    chart: flagsmith/flagsmith
+    chart: ../charts/charts/flagsmith/
     version: 0.74.0
     values:
       - flagsmith-values.yaml
