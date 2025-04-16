@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: dev-postgresql
     helm.sh/chart: devPostgresql-12.5.8
   name: flagsmith-dev-postgresql
-  namespace: default
+  namespace: flagsmith
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -23,7 +23,7 @@ metadata:
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-django-secret-key
-  namespace: default
+  namespace: flagsmith
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -38,7 +38,7 @@ metadata:
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-sse-authentication-token
-  namespace: default
+  namespace: flagsmith
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -53,7 +53,7 @@ metadata:
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-django-secret-key
-  namespace: default
+  namespace: flagsmith
 rules:
 - apiGroups:
   - ""
@@ -76,7 +76,7 @@ metadata:
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-sse-authentication-token
-  namespace: default
+  namespace: flagsmith
 rules:
 - apiGroups:
   - ""
@@ -99,7 +99,7 @@ metadata:
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-django-secret-key
-  namespace: default
+  namespace: flagsmith
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -107,7 +107,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: flagsmith-django-secret-key
-  namespace: default
+  namespace: flagsmith
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -122,7 +122,7 @@ metadata:
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-sse-authentication-token
-  namespace: default
+  namespace: flagsmith
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -130,7 +130,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: flagsmith-sse-authentication-token
-  namespace: default
+  namespace: flagsmith
 ---
 apiVersion: v1
 data:
@@ -143,12 +143,12 @@ metadata:
     app.kubernetes.io/name: dev-postgresql
     helm.sh/chart: devPostgresql-12.5.8
   name: flagsmith-dev-postgresql
-  namespace: default
+  namespace: flagsmith
 type: Opaque
 ---
 apiVersion: v1
 data:
-  DATABASE_URL: cG9zdGdyZXM6Ly9wb3N0Z3JlczpmbGFnc21pdGhAZmxhZ3NtaXRoLWRldi1wb3N0Z3Jlc3FsLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWw6NTQzMi9mbGFnc21pdGg=
+  DATABASE_URL: cG9zdGdyZXM6Ly9wb3N0Z3JlczpmbGFnc21pdGhAZmxhZ3NtaXRoLWRldi1wb3N0Z3Jlc3FsLmZsYWdzbWl0aC5zdmMuY2x1c3Rlci5sb2NhbDo1NDMyL2ZsYWdzbWl0aA==
 kind: Secret
 metadata:
   labels:
@@ -158,6 +158,7 @@ metadata:
     app.kubernetes.io/name: flagsmith
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
+  namespace: flagsmith
   name: flagsmith
 type: Opaque
 ---
@@ -171,7 +172,7 @@ metadata:
     app.kubernetes.io/name: dev-postgresql
     helm.sh/chart: devPostgresql-12.5.8
   name: flagsmith-dev-postgresql
-  namespace: default
+  namespace: flagsmith
 spec:
   ports:
   - name: tcp-postgresql
@@ -196,7 +197,7 @@ metadata:
     helm.sh/chart: devPostgresql-12.5.8
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
   name: flagsmith-dev-postgresql-hl
-  namespace: default
+  namespace: flagsmith
 spec:
   clusterIP: None
   ports:
@@ -312,6 +313,7 @@ metadata:
     app.kubernetes.io/name: flagsmith
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
+  namespace: flagsmith
   name: flagsmith
 spec:
   replicas: 1
@@ -332,9 +334,9 @@ spec:
         - name: ASSET_URL
           value: /
         - name: PROXY_API_URL
-          value: http://flagsmith-api.default:8000
+          value: http://flagsmith-api.flagsmith:8000
         - name: FLAGSMITH_PROXY_API_URL
-          value: http://flagsmith-api.default:8000
+          value: http://flagsmith-api.flagsmith:8000
         image: flagsmith.docker.scarf.sh/flagsmith/flagsmith-frontend:2.171.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -376,6 +378,7 @@ metadata:
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-api
+  namespace: flagsmith
 spec:
   replicas: 1
   selector:
@@ -386,7 +389,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secrets-api: 001ffd2d7f9160ca9d64621ddfe7685dbd11f05e471e5f01f4e39402e48269f9
+        checksum/secrets-api: becadb0d3ed7fa11cb7d7a876975a1517c61ce5f72b8e13b6ea70f10235dca46
       labels:
         app.kubernetes.io/component: api
         app.kubernetes.io/instance: flagsmith
@@ -426,7 +429,7 @@ spec:
               key: sse-authentication-token
               name: flagsmith-sse-authentication-token
         - name: SSE_SERVER_BASE_URL
-          value: http://flagsmith-sse.default:8000
+          value: http://flagsmith-sse.flagsmith:8000
         image: quay.io/flagsmithofficial/flagsmith-enterprise-api:2.171.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -454,6 +457,8 @@ spec:
           timeoutSeconds: 2
         resources: {}
         volumeMounts: []
+      imagePullSecrets:
+      - name: flagsmith-quay-pull-secret
       initContainers:
       - args:
         - migrate
@@ -488,7 +493,7 @@ spec:
               key: sse-authentication-token
               name: flagsmith-sse-authentication-token
         - name: SSE_SERVER_BASE_URL
-          value: http://flagsmith-sse.default:8000
+          value: http://flagsmith-sse.flagsmith:8000
         image: quay.io/flagsmithofficial/flagsmith-enterprise-api:2.171.0
         imagePullPolicy: IfNotPresent
         name: migrate-db
@@ -505,6 +510,7 @@ metadata:
     app.kubernetes.io/name: flagsmith
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
+  namespace: flagsmith
   name: flagsmith-sse
 spec:
   replicas: 1
@@ -557,6 +563,8 @@ spec:
           timeoutSeconds: 2
         resources: {}
         volumeMounts: []
+      imagePullSecrets:
+      - name: flagsmith-dockerhub-pull-secret
       initContainers: null
       securityContext: {}
       volumes: null
@@ -571,6 +579,7 @@ metadata:
     app.kubernetes.io/name: flagsmith
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
+  namespace: flagsmith
   name: flagsmith-task-processor
 spec:
   replicas: 1
@@ -582,7 +591,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/secrets-api: 001ffd2d7f9160ca9d64621ddfe7685dbd11f05e471e5f01f4e39402e48269f9
+        checksum/secrets-api: becadb0d3ed7fa11cb7d7a876975a1517c61ce5f72b8e13b6ea70f10235dca46
       labels:
         app.kubernetes.io/component: task-processor
         app.kubernetes.io/instance: flagsmith
@@ -624,7 +633,7 @@ spec:
               key: sse-authentication-token
               name: flagsmith-sse-authentication-token
         - name: SSE_SERVER_BASE_URL
-          value: http://flagsmith-sse.default:8000
+          value: http://flagsmith-sse.flagsmith:8000
         image: quay.io/flagsmithofficial/flagsmith-enterprise-api:2.171.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -652,6 +661,8 @@ spec:
           timeoutSeconds: 30
         resources: {}
         volumeMounts: []
+      imagePullSecrets:
+      - name: flagsmith-quay-pull-secret
       securityContext: {}
       volumes: null
 ---
@@ -665,7 +676,7 @@ metadata:
     app.kubernetes.io/name: dev-postgresql
     helm.sh/chart: devPostgresql-12.5.8
   name: flagsmith-dev-postgresql
-  namespace: default
+  namespace: flagsmith
 spec:
   replicas: 1
   selector:
@@ -812,7 +823,7 @@ metadata:
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-django-secret-key
-  namespace: default
+  namespace: flagsmith
 spec:
   template:
     metadata:
@@ -831,7 +842,7 @@ spec:
         - -c
         - |
           SECRET_NAME=flagsmith-django-secret-key
-          NAMESPACE=default
+          NAMESPACE=flagsmith
           echo "Checking for secret $SECRET_NAME in namespace $NAMESPACE"
           # Attempt to get the secret; if it fails (exit code != 0), create it.
           if ! kubectl get secret "$SECRET_NAME" -n "$NAMESPACE" -o name; then
@@ -866,7 +877,7 @@ metadata:
     app.kubernetes.io/version: 2.171.0
     helm.sh/chart: flagsmith-0.73.1
   name: flagsmith-sse-authentication-token
-  namespace: default
+  namespace: flagsmith
 spec:
   template:
     metadata:
@@ -885,7 +896,7 @@ spec:
         - -c
         - |
           SECRET_NAME=flagsmith-sse-authentication-token
-          NAMESPACE=default
+          NAMESPACE=flagsmith
           echo "Checking for secret $SECRET_NAME in namespace $NAMESPACE"
           # Attempt to get the secret; if it fails (exit code != 0), create it.
           if ! kubectl get secret "$SECRET_NAME" -n "$NAMESPACE" -o name; then

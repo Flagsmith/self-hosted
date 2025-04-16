@@ -12,7 +12,7 @@ Helm: Values: {
 			repository:      string | *"flagsmith.docker.scarf.sh/flagsmith/flagsmith-api"
 			tag:             string // defaults to .Chart.AppVersion
 			imagePullPolicy: "IfNotPresent"
-			imagePullSecrets: []
+			imagePullSecrets: [...]
 		}
 		// Note that if setting this to false, need to set
 		// api.image.repository to flagsmith/flagsmith (or some other
@@ -173,7 +173,7 @@ Helm: Values: {
 			repository:       null
 			tag:              null
 			imagePullPolicy:  null
-			imagePullSecrets: null
+			imagePullSecrets: [...]
 		}
 		enabled:         bool | false
 		replicacount:    1
@@ -358,7 +358,7 @@ Helm: Values: {
 			repository:      "flagsmith/sse"
 			tag:             "3.6.0"
 			imagePullPolicy: "IfNotPresent"
-			imagePullSecrets: []
+			imagePullSecrets: [...]
 		}
 
 		// authenticationTokenFromExistingSecret is a shared secret between the API and SSE service. If none is provided, a Job
