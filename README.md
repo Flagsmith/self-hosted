@@ -1,16 +1,44 @@
 # Self-hosted Flagsmith example
 
-This example deploys Flagsmith to Kubernetes. It also deploys
+This example deploys Flagsmith Enterprise to a Kubernetes cluster using a Helmfile. It also deploys
 [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) with
 Grafana for monitoring.
 
-Flagsmith API and task processor pods are scraped using a [`ServiceMonitor`](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.ServiceMonitor).
+The Flagsmith API and task processor pods emit Prometheus metrics, which are scraped by a [`ServiceMonitor`](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.ServiceMonitor)
+from the Prometheus operator.
 
 > [!WARNING]
-> This example and all its resources (e.g. dashboards) are provided as reference examples with no stability or
+> This example and all its resources (e.g. dashboards) are provided as reference examples with no security, stability or
 > backwards compatibility guarantees.
 
 ## Usage
+
+First, create a namespace for Flagsmith resources:
+
+```
+kubectl create namespace flagsmith
+```
+
+Create a Secret in the same namespace for your private container image pulling credentials:
+
+```
+kubectl create secret docker-registry flagsmithofficial-example-pull-secret \
+  --namespace=flagsmith \
+  --docker-server=quay.io \
+  --docker-username='flagsmithofficial+example' \
+  --docker-password=''
+```
+
+Reference this Secret in your Helm values:
+
+```yaml
+global:
+  image:
+    imagePullSecrets:
+      - name: flagsmithofficial-example-pull-secret
+```
+
+Deploy the stack:
 
 ```
 helmfile sync
