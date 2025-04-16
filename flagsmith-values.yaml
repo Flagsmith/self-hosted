@@ -1,6 +1,13 @@
+# Use an existing secret that has your Docker registry credentials:
+#
+#global:
+# image:
+#   imagePullSecrets:
+#     - name: flagsmithofficial-example-pull-secret
+
 api:
   image:
-    repository: quay.io/flagsmithofficial/flagsmith-api
+    repository: quay.io/flagsmithofficial/flagsmith-enterprise-api
   extraEnv:
     USE_SECURE_COOKIES: false
     PROMETHEUS_ENABLED: true
@@ -8,7 +15,7 @@ api:
 
 taskProcessor:
   image:
-    repository: quay.io/flagsmithofficial/flagsmith-api
+    repository: quay.io/flagsmithofficial/flagsmith-enterprise-api
   enabled: true
   extraEnv:
     PROMETHEUS_ENABLED: true
