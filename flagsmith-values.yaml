@@ -24,7 +24,9 @@ api:
     repository: quay.io/flagsmithofficial/flagsmith-enterprise-api
   extraEnv:
     USE_SECURE_COOKIES: false
+    LOG_FORMAT: json
     ACCESS_LOG_LOCATION: '-'
+    ACCESS_LOG_EXTRA_ITEMS: '{flagsmith.environment_id}e'
 
 taskProcessor:
   image:

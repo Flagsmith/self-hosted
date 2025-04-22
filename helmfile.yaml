@@ -19,7 +19,7 @@ releases:
 
   - name: flagsmith
     namespace: flagsmith
-    chart: ../charts/charts/flagsmith/
+    chart: flagsmith/flagsmith
     version: 0.74.0
     needs:
       - monitoring/prometheus
