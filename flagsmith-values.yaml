@@ -9,6 +9,17 @@ serviceMonitor:
   enabled: true
 
 api:
+  livenessProbe:
+    exec:
+      command:
+      - /usr/bin/python
+      - -c
+      - |
+        import socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
+        sock.connect(('localhost', 8000))
+        sock.close()
   image:
     repository: quay.io/flagsmithofficial/flagsmith-enterprise-api
   extraEnv:
@@ -21,6 +32,8 @@ taskProcessor:
   enabled: true
   extraEnv:
     ACCESS_LOG_LOCATION: '-'
+    ACCESS_LOG_FORMAT: json
+    TASK_PROCESSOR_NUM_THREADS: 5
 
 frontend:
   image:
