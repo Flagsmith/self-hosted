@@ -24,7 +24,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 1,
   "links": [],
   "panels": [
     {
@@ -91,7 +90,6 @@
         "x": 0,
         "y": 0
       },
-      "id": 17,
       "options": {
         "legend": {
           "calcs": [
@@ -193,7 +191,6 @@
         "x": 8,
         "y": 0
       },
-      "id": 34,
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -273,7 +270,6 @@
         "x": 0,
         "y": 6
       },
-      "id": 12,
       "panels": [],
       "title": "HTTP requests",
       "type": "row"
@@ -341,7 +337,6 @@
         "x": 0,
         "y": 7
       },
-      "id": 19,
       "options": {
         "legend": {
           "calcs": [
@@ -439,7 +434,6 @@
         "x": 6,
         "y": 7
       },
-      "id": 18,
       "options": {
         "legend": {
           "calcs": [
@@ -541,7 +535,6 @@
         "x": 12,
         "y": 7
       },
-      "id": 35,
       "options": {
         "legend": {
           "calcs": [
@@ -640,7 +633,6 @@
         "x": 18,
         "y": 7
       },
-      "id": 32,
       "options": {
         "legend": {
           "calcs": [
@@ -738,7 +730,6 @@
         "x": 0,
         "y": 13
       },
-      "id": 4,
       "options": {
         "legend": {
           "calcs": [
@@ -836,7 +827,6 @@
         "x": 6,
         "y": 13
       },
-      "id": 2,
       "options": {
         "legend": {
           "calcs": [
@@ -938,7 +928,6 @@
         "x": 12,
         "y": 13
       },
-      "id": 36,
       "options": {
         "legend": {
           "calcs": [
@@ -1037,7 +1026,6 @@
         "x": 18,
         "y": 13
       },
-      "id": 33,
       "options": {
         "legend": {
           "calcs": [
@@ -1081,7 +1069,6 @@
         "x": 0,
         "y": 19
       },
-      "id": 14,
       "panels": [],
       "title": "HTTP request duration",
       "type": "row"
@@ -1152,7 +1139,6 @@
         "x": 0,
         "y": 20
       },
-      "id": 26,
       "options": {
         "legend": {
           "calcs": [
@@ -1267,7 +1253,6 @@
         "x": 6,
         "y": 20
       },
-      "id": 8,
       "options": {
         "legend": {
           "calcs": [
@@ -1382,7 +1367,6 @@
         "x": 12,
         "y": 20
       },
-      "id": 20,
       "options": {
         "legend": {
           "calcs": [
@@ -1484,7 +1468,6 @@
         "x": 18,
         "y": 20
       },
-      "id": 6,
       "options": {
         "legend": {
           "calcs": [
@@ -1528,7 +1511,6 @@
         "x": 0,
         "y": 26
       },
-      "id": 15,
       "panels": [],
       "title": "Task metrics",
       "type": "row"
@@ -1601,7 +1583,6 @@
         "x": 0,
         "y": 27
       },
-      "id": 30,
       "options": {
         "legend": {
           "calcs": [
@@ -1712,7 +1693,6 @@
         "x": 8,
         "y": 27
       },
-      "id": 27,
       "options": {
         "legend": {
           "calcs": [
@@ -1848,7 +1828,6 @@
         "x": 16,
         "y": 27
       },
-      "id": 24,
       "options": {
         "legend": {
           "calcs": [
@@ -1961,7 +1940,6 @@
         "x": 0,
         "y": 33
       },
-      "id": 31,
       "options": {
         "legend": {
           "calcs": [
@@ -2072,7 +2050,6 @@
         "x": 12,
         "y": 33
       },
-      "id": 21,
       "options": {
         "legend": {
           "calcs": [
